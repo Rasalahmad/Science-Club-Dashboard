@@ -3,9 +3,19 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
+import { makeRequest } from "../../axios";
 
 const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
+  const [info, setInfo] = useState({});
+
+  const handleChange = (e) => {
+    setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <div className="new">
@@ -43,10 +53,15 @@ const New = ({ inputs, title }) => {
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
-                  <input type={input.type} placeholder={input.placeholder} />
+                  <input
+                    type={input.type}
+                    id={input.id}
+                    placeholder={input.placeholder}
+                    onChange={handleChange}
+                  />
                 </div>
               ))}
-              <button>Send</button>
+              <button onClick={handleSubmit}>Send</button>
             </form>
           </div>
         </div>

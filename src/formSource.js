@@ -44,43 +44,43 @@ export const userInputs = [
 
 export const committeeInputs = [
   {
-    id: 1,
+    id: "name",
     label: "Title",
     type: "text",
     placeholder: "Name",
   },
   {
-    id: 2,
+    id: "about",
     label: "Biography",
     type: "text",
     placeholder: "Biography",
   },
   {
-    id: 3,
+    id: "designation",
     label: "Designation",
     type: "text",
     placeholder: "Designation",
   },
   {
-    id: 4,
+    id: "fbLink",
     label: "Facebook Link",
     type: "text",
     placeholder: "Facebook Link",
   },
   {
-    id: 5,
+    id: "instraLink",
     label: "Instragram Link",
     type: "text",
     placeholder: "Instragram Link",
   },
   {
-    id: 6,
+    id: "linkedinLink",
     label: "Linkedin Link",
     type: "text",
     placeholder: "Linkedin Link",
   },
   {
-    id: 6,
+    id: "batch",
     label: "Batch",
     type: "text",
     placeholder: "Batch",
