@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export const makeRequest = axios.create({
-  baseURL: "https://science-club-app-server-production.up.railway.app",
+  baseURL: "http://localhost:5000/api",
   withCredentials: true,
 });
