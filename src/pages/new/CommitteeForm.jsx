@@ -6,7 +6,7 @@ import { useState } from "react";
 import { makeRequest } from "../../axios";
 import Swal from "sweetalert2";
 
-const New = ({ inputs, title }) => {
+const CommitteeForm = ({ inputs, title }) => {
   const [file, setFile] = useState(null);
   const [info, setInfo] = useState({});
 
@@ -94,4 +94,4 @@ const New = ({ inputs, title }) => {
   );
 };
 
-export default New;
+export default CommitteeForm;

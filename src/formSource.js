@@ -1,44 +1,45 @@
-export const userInputs = [
+export const facultyInputs = [
   {
-    id: 1,
-    label: "Username",
+    id: "name",
+    label: "Name",
     type: "text",
-    placeholder: "john_doe",
+    placeholder: "name",
   },
   {
-    id: 2,
-    label: "Name and surname",
+    id: "about",
+    label: "About",
     type: "text",
-    placeholder: "John Doe",
+    placeholder: "about",
   },
   {
-    id: 3,
-    label: "Email",
-    type: "mail",
-    placeholder: "john_doe@gmail.com",
-  },
-  {
-    id: 4,
-    label: "Phone",
+    id: "designation",
+    label: "Designation",
     type: "text",
-    placeholder: "+1 234 567 89",
+    placeholder: "designation",
   },
   {
-    id: 5,
-    label: "Password",
-    type: "password",
-  },
-  {
-    id: 6,
-    label: "Address",
+    id: "university",
+    label: "University",
     type: "text",
-    placeholder: "Elton St. 216 NewYork",
+    placeholder: "university name",
   },
   {
-    id: 7,
-    label: "Country",
+    id: "fbLink",
+    label: "Facebook Link",
     type: "text",
-    placeholder: "USA",
+    placeholder: "Facebook Link",
+  },
+  {
+    id: "instraLink",
+    label: "Instragram Link",
+    type: "text",
+    placeholder: "Instragram Link",
+  },
+  {
+    id: "linkedinLink",
+    label: "Linkedin Link",
+    type: "text",
+    placeholder: "Linkedin Link",
   },
 ];
 

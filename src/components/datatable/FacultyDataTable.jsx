@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { makeRequest } from "../../axios";
 
-const CommitteeDataTable = () => {
+const FacultyDataTable = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ const CommitteeDataTable = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await makeRequest.get("/committee");
+        const res = await makeRequest.get("/faculty");
         setData(res.data.data);
       } catch (err) {
         setError(err);
@@ -37,7 +37,7 @@ const CommitteeDataTable = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         try {
-          makeRequest.delete(`/committee/${id}`);
+          makeRequest.delete(`/faculty/${id}`);
           setData(data.filter((item) => item._id !== id));
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
         } catch (err) {
@@ -55,7 +55,7 @@ const CommitteeDataTable = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/committee/test" style={{ textDecoration: "none" }}>
+            <Link to="/faculty/test" style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div
@@ -77,7 +77,7 @@ const CommitteeDataTable = () => {
         <div className="datatable">
           <div className="datatableTitle">
             Add New Committee Member
-            <Link to={`/committee/committeeForm`} className="link">
+            <Link to={`/faculty/facultyForm`} className="link">
               Add New
             </Link>
           </div>
@@ -97,4 +97,4 @@ const CommitteeDataTable = () => {
   );
 };
 
-export default CommitteeDataTable;
+export default FacultyDataTable;

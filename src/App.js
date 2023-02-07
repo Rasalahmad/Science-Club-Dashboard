@@ -2,9 +2,10 @@ import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
-import New from "./pages/new/New";
+import CommitteeForm from "./pages/new/CommitteeForm";
+import FacultyForm from "./pages/new/FacultyForm";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { committeeInputs, userInputs } from "./formSource";
+import { committeeInputs, facultyInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
@@ -19,21 +20,26 @@ function App() {
           <Route path="/">
             <Route index element={<Home />} />
             <Route path="login" element={<Login />} />
-            <Route path="users">
+            <Route path="faculty">
               <Route index element={<List />} />
               <Route path=":userId" element={<Single />} />
               <Route
-                path="new"
-                element={<New inputs={userInputs} title="Add New User" />}
+                path="facultyForm"
+                element={
+                  <FacultyForm inputs={facultyInputs} title="Add New Faculty" />
+                }
               />
             </Route>
             <Route path="committee">
               <Route index element={<List />} />
               <Route path=":productId" element={<Single />} />
               <Route
-                path="new"
+                path="committeeForm"
                 element={
-                  <New inputs={committeeInputs} title="Add New Member" />
+                  <CommitteeForm
+                    inputs={committeeInputs}
+                    title="Add New Member"
+                  />
                 }
               />
             </Route>
