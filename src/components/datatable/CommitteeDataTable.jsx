@@ -1,21 +1,45 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, committeeRows } from "../../datatablesource";
-import { Link } from "react-router-dom";
+import { userColumns } from "../../datatablesource";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const CommitteeDataTable = () => {
-  const [data, setData] = useState(committeeRows);
+  const [data, setData] = useState([]);
+  const [error, setError] = useState("");
+  const location = useLocation();
+  const path = location.pathname.split("/")[1];
 
   useEffect(() => {
-    fetch(
-      "https://science-club-app-server-production.up.railway.app/committee"
-    ).then((res) => res.json());
-    // .then((data) => setDatas(data));
+    fetch("http://localhost:5000/api/committee")
+      .then((res) => res.json())
+      .then((data) => setData(data?.data));
   }, []);
 
+  console.log(data.data);
+
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          axios.delete(`http://localhost:5000/api/${path}/${id}`);
+          setData(data.filter((item) => item._id !== id));
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        } catch (err) {
+          setError(err);
+        }
+      }
+    });
   };
 
   const actionColumn = [
@@ -31,7 +55,7 @@ const CommitteeDataTable = () => {
             </Link>
             <div
               className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDelete(params.row._id)}
             >
               Delete
             </div>
@@ -48,7 +72,7 @@ const CommitteeDataTable = () => {
         <div className="datatable">
           <div className="datatableTitle">
             Add New Committee Member
-            <Link to="/committee/new" className="link">
+            <Link to={`/${path}/new`} className="link">
               Add New
             </Link>
           </div>
@@ -59,7 +83,9 @@ const CommitteeDataTable = () => {
             pageSize={9}
             rowsPerPageOptions={[9]}
             checkboxSelection
+            getRowId={(rows) => rows._id}
           />
+          {error && <p>{error}</p>}
         </div>
       )}
     </>
