@@ -1,23 +1,21 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { userColumns } from "../../datatablesource";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
+import { makeRequest } from "../../axios";
 
 const CommitteeDataTable = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const location = useLocation();
-  const path = location.pathname.split("/")[1];
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("http://localhost:5000/api/committee");
+        const res = await makeRequest.get("/committee");
         setData(res.data.data);
       } catch (err) {
         setError(err);
@@ -39,7 +37,7 @@ const CommitteeDataTable = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         try {
-          axios.delete(`http://localhost:5000/api/${path}/${id}`);
+          makeRequest.delete(`/committee/${id}`);
           setData(data.filter((item) => item._id !== id));
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
         } catch (err) {
@@ -79,7 +77,7 @@ const CommitteeDataTable = () => {
         <div className="datatable">
           <div className="datatableTitle">
             Add New Committee Member
-            <Link to={`/${path}/new`} className="link">
+            <Link to={`/committee/new`} className="link">
               Add New
             </Link>
           </div>
