@@ -4,6 +4,7 @@ import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
 import { makeRequest } from "../../axios";
+import Swal from "sweetalert2";
 
 const New = ({ inputs, title }) => {
   const [file, setFile] = useState(null);
@@ -20,7 +21,7 @@ const New = ({ inputs, title }) => {
       const res = await makeRequest.post("/upload", formData);
       return res.data;
     } catch (err) {
-      console.log(err);
+      Swal.fire("Error", "Can't upload this image", "error");
     }
   };
 
@@ -29,7 +30,15 @@ const New = ({ inputs, title }) => {
     const image = await upload(file);
     const data = { ...info, image };
     const res = await makeRequest.post("/committee", data);
-    console.log(res);
+    if (res.data) {
+      Swal.fire(
+        "Success",
+        "The Committee Member Added successfully",
+        "success"
+      );
+    } else {
+      Swal.fire("Error", "Something went wrong", "error");
+    }
   };
 
   return (
