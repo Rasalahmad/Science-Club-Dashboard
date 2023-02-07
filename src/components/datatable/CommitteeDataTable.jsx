@@ -9,16 +9,23 @@ import Swal from "sweetalert2";
 const CommitteeDataTable = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const path = location.pathname.split("/")[1];
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/committee")
-      .then((res) => res.json())
-      .then((data) => setData(data?.data));
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get("http://localhost:5000/api/committee");
+        setData(res.data.data);
+      } catch (err) {
+        setError(err);
+      }
+      setLoading(false);
+    };
+    fetchData();
   }, []);
-
-  console.log(data.data);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -66,7 +73,7 @@ const CommitteeDataTable = () => {
   ];
   return (
     <>
-      {!data ? (
+      {!data || loading ? (
         "Loading"
       ) : (
         <div className="datatable">
