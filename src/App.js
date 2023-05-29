@@ -5,10 +5,11 @@ import Single from "./pages/single/Single";
 import CommitteeForm from "./pages/new/CommitteeForm";
 import FacultyForm from "./pages/new/FacultyForm";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { committeeInputs, facultyInputs } from "./formSource";
+import { committeeInputs, facultyInputs, resultInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
+import ResultForm from "./pages/new/ResultForm";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -43,6 +44,10 @@ function App() {
                 }
               />
             </Route>
+            <Route
+              path="result"
+              element={<ResultForm inputs={resultInputs} title="Add Result" />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
