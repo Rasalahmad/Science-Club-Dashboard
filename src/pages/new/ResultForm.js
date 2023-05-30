@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 const ResultForm = ({ inputs, title }) => {
   const [info, setInfo] = useState({});
   const [courses, setCourses] = useState([
-    { courseName: "", courseId: "", marks: "" },
+    { courseName: "", courseId: "", cgpa: "" },
   ]);
 
   const handleInputChange = (index, event) => {
@@ -19,7 +19,7 @@ const ResultForm = ({ inputs, title }) => {
   };
 
   const handleAddCourse = () => {
-    setCourses([...courses, { courseName: "", courseId: "", marks: "" }]);
+    setCourses([...courses, { courseName: "", courseId: "", cgpa: "" }]);
   };
 
   const handleRemoveCourse = (index) => {
@@ -32,20 +32,28 @@ const ResultForm = ({ inputs, title }) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
+  const [department, setDepartment] = useState("");
+
+  const handleDropdownChange = (event) => {
+    setDepartment(event.target.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ ...info, courses });
-    // const data = { ...info };
-    // const res = await makeRequest.post("/faculty", data);
-    // if (res.data) {
-    //   Swal.fire(
-    //     "Success",
-    //     "The Committee Member Added successfully",
-    //     "success"
-    //   );
-    // } else {
-    //   Swal.fire("Error", "Something went wrong", "error");
-    // }
+    const data = { ...info, courses };
+    const res = await makeRequest.post(
+      `/result/${department.toLocaleLowerCase()}`,
+      data
+    );
+    if (res.data) {
+      Swal.fire(
+        "Success",
+        "The Committee Member Added successfully",
+        "success"
+      );
+    } else {
+      Swal.fire("Error", "Something went wrong", "error");
+    }
   };
 
   return (
@@ -58,6 +66,23 @@ const ResultForm = ({ inputs, title }) => {
         </div>
         <div className="bottom">
           <div className="right">
+            <label className="label" htmlFor="dropdown">
+              Select department:
+            </label>
+            <select
+              id="dropdown"
+              className="department"
+              value={department}
+              onChange={handleDropdownChange}
+            >
+              <option>Choose department</option>
+              <option>CSE</option>
+              <option>BBA</option>
+              <option>ENGLISH</option>
+              <option>GDS</option>
+              <option>HTM</option>
+              <option>MBA</option>
+            </select>
             <form>
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
@@ -106,8 +131,8 @@ const ResultForm = ({ inputs, title }) => {
                   <label>Marks</label>
                   <input
                     type="text"
-                    name="marks"
-                    value={course.marks}
+                    name="cgpa"
+                    value={course.cgpa}
                     onChange={(e) => handleInputChange(index, e)}
                     placeholder="Marks"
                   />
@@ -126,8 +151,10 @@ const ResultForm = ({ inputs, title }) => {
                   )}
                 </div>
               ))}
-              <button onClick={handleSubmit}>Send</button>
             </form>
+            <div className="btnContainer">
+              <button onClick={handleSubmit}>Send</button>
+            </div>
           </div>
         </div>
       </div>

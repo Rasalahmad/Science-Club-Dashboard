@@ -89,19 +89,19 @@ export const committeeInputs = [
 ];
 export const resultInputs = [
   {
-    id: "name",
+    id: "stdName",
     label: "Student Name",
     type: "text",
     placeholder: "Stduent Name",
   },
   {
-    id: "id",
+    id: "stdId",
     label: "Student ID",
     type: "text",
     placeholder: "Student ID",
   },
   {
-    id: "Semester",
+    id: "semester",
     label: "Semester",
     type: "select", // Change the type to "select"
     placeholder: "Semester",
@@ -118,7 +118,7 @@ export const resultInputs = [
     ],
   },
   {
-    id: "assessments",
+    id: "examType",
     label: "Assessments",
     type: "select", // Change the type to "select"
     placeholder: "Assessments",
