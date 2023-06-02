@@ -1,6 +1,8 @@
 import axios from "axios";
 
 export const makeRequest = axios.create({
-  baseURL: "https://club.hotelgreenlandbd.com/api",
+  baseURL: "http://localhost:5000/api",
   withCredentials: true,
 });
+
+// https://club.hotelgreenlandbd.com/api
