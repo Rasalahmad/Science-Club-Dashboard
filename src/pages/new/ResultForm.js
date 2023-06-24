@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 const ResultForm = ({ inputs, title }) => {
   const [info, setInfo] = useState({});
   const [courses, setCourses] = useState([
-    { courseName: "", courseId: "", cgpa: "" },
+    { courseName: "", courseId: "", cgpa: "", creditHours: "" },
   ]);
 
   const handleInputChange = (index, event) => {
@@ -19,7 +19,10 @@ const ResultForm = ({ inputs, title }) => {
   };
 
   const handleAddCourse = () => {
-    setCourses([...courses, { courseName: "", courseId: "", cgpa: "" }]);
+    setCourses([
+      ...courses,
+      { courseName: "", courseId: "", cgpa: "", creditHours: "" },
+    ]);
   };
 
   const handleRemoveCourse = (index) => {
@@ -135,6 +138,14 @@ const ResultForm = ({ inputs, title }) => {
                     value={course.cgpa}
                     onChange={(e) => handleInputChange(index, e)}
                     placeholder="Marks"
+                  />
+                  <label>Credit Hours</label>
+                  <input
+                    type="text"
+                    name="creditHours"
+                    value={course.creditHours}
+                    onChange={(e) => handleInputChange(index, e)}
+                    placeholder="Credit Hours"
                   />
                   {index === courses.length - 1 && (
                     <button className="add-button" onClick={handleAddCourse}>
