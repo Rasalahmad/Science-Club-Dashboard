@@ -62,6 +62,39 @@ export const courseColumn = [
   },
 ];
 
+export const resultColumn = [
+  {
+    field: "course_id",
+    headerName: "Course Code",
+    width: 200,
+  },
+  {
+    field: "name",
+    headerName: "Course Name",
+    width: 350,
+  },
+  {
+    field: "credit",
+    headerName: "Credit",
+    width: 200,
+  },
+  {
+    field: "marks",
+    headerName: "Marks",
+    width: 200,
+  },
+  {
+    field: "point",
+    headerName: "Point",
+    width: 200,
+  },
+  {
+    field: "grade",
+    headerName: "Grade",
+    width: 200,
+  },
+];
+
 //temporary data
 export const userRows = [
   {

@@ -95,7 +95,7 @@ const CourseDataTable = () => {
         "Loading"
       ) : (
         <div className="datatable">
-          <div className="datatableTitle">Journal List</div>
+          <div className="datatableTitle">Course List</div>
           <div style={{ display: "flex", gap: "50px" }}>
             <div
               style={{ display: "flex", flexDirection: "column", gap: "10px" }}

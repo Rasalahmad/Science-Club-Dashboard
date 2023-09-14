@@ -88,7 +88,7 @@ function App() {
               />
             </Route>
             <Route
-              path="result"
+              path="add-result"
               element={<ResultForm inputs={resultInputs} title="Add Result" />}
             />
             <Route
@@ -96,6 +96,10 @@ function App() {
               element={<CourseForm inputs={resultInputs} title="Add Course" />}
             />
             <Route path="courses">
+              <Route index element={<List />} />
+              <Route path=":noticeId" element={<Single />} />
+            </Route>
+            <Route path="result">
               <Route index element={<List />} />
               <Route path=":noticeId" element={<Single />} />
             </Route>
