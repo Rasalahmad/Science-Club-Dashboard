@@ -65,6 +65,12 @@ const Sidebar = () => {
               <span>Journals</span>
             </li>
           </Link>
+          <Link to="/courses" style={{ textDecoration: "none" }}>
+            <li>
+              <PsychologyOutlinedIcon className="icon" />
+              <span>Courses</span>
+            </li>
+          </Link>
           <p className="title">MANAGE RESULT</p>
           <Link to="/result" style={{ textDecoration: "none" }}>
             <li>
@@ -97,6 +103,12 @@ const Sidebar = () => {
             <li>
               <InsertChartIcon className="icon" />
               <span>Add Events</span>
+            </li>
+          </Link>
+          <Link to="/add-course" style={{ textDecoration: "none" }}>
+            <li>
+              <InsertChartIcon className="icon" />
+              <span>Add Course</span>
             </li>
           </Link>
           <li>

@@ -8,6 +8,7 @@ import FacultyDataTable from "../../components/datatable/FacultyDataTable";
 import NoticeDataTable from "../../components/datatable/NoticeDataTable";
 import EventDataTable from "../../components/datatable/EventDataTable";
 import JournalDataTable from "../../components/datatable/JournalDataTable";
+import CourseDataTable from "../../components/datatable/CourseDataTable";
 
 const List = () => {
   const location = useLocation();
@@ -27,6 +28,8 @@ const List = () => {
           <EventDataTable />
         ) : location.pathname === "/journals" ? (
           <JournalDataTable />
+        ) : location.pathname === "/courses" ? (
+          <CourseDataTable />
         ) : (
           <></>
         )}
