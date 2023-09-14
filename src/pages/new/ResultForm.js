@@ -59,19 +59,15 @@ const ResultForm = ({ inputs, title }) => {
     e.preventDefault();
     const data = { ...info, courses, semester };
     console.log(data);
-    // const res = await makeRequest.post(
-    //   `/result/${department.toLocaleLowerCase()}`,
-    //   data
-    // );
-    // if (res.data) {
-    //   Swal.fire(
-    //     "Success",
-    //     "The Committee Member Added successfully",
-    //     "success"
-    //   );
-    // } else {
-    //   Swal.fire("Error", "Something went wrong", "error");
-    // }
+    const res = await makeRequest.post(
+      `/result/${department.toLocaleLowerCase()}`,
+      data
+    );
+    if (res.data) {
+      Swal.fire("Success", "Result Added successfully", "success");
+    } else {
+      Swal.fire("Error", "Something went wrong", "error");
+    }
   };
 
   return (
@@ -120,68 +116,71 @@ const ResultForm = ({ inputs, title }) => {
               <option>7th</option>
               <option>8th</option>
             </select>
-            <form>
-              {inputs.map((input) => (
-                <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  {input.type === "select" ? (
-                    <select
-                      id={input.id}
-                      onChange={handleChange}
-                      value={input.value}
-                    >
-                      <option value="">{input.placeholder}</option>
-                      {input.options.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <input
-                      type={input.type}
-                      id={input.id}
-                      placeholder={input.placeholder}
-                      onChange={handleChange}
-                    />
-                  )}
-                </div>
-              ))}
-              {courses.length > 0 && (
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    // justifyContent: "space-between",
-                    flexDirection: "column",
-                    gap: "25px",
-                  }}
-                >
-                  <div style={{ display: "flex", gap: "100px" }}>
-                    <label style={{ width: "40%" }}>Course Name</label>
-                    <label>Marks</label>
+            {loading ? (
+              <p>Loading...</p>
+            ) : (
+              <form>
+                {inputs.map((input) => (
+                  <div className="formInput" key={input.id}>
+                    <label>{input.label}</label>
+                    {input.type === "select" ? (
+                      <select
+                        id={input.id}
+                        onChange={handleChange}
+                        value={input.value}
+                      >
+                        <option value="">{input.placeholder}</option>
+                        {input.options.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input
+                        type={input.type}
+                        id={input.id}
+                        placeholder={input.placeholder}
+                        onChange={handleChange}
+                      />
+                    )}
                   </div>
+                ))}
+                {courses.length > 0 && (
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      // justifyContent: "space-between",
+                      flexDirection: "column",
+                      gap: "25px",
+                    }}
+                  >
+                    <div style={{ display: "flex", gap: "100px" }}>
+                      <label style={{ width: "40%" }}>Course Name</label>
+                      <label>Marks</label>
+                    </div>
 
-                  {courses.map((course, index) => (
-                    <div
-                      key={index}
-                      className="formInput"
-                      style={{
-                        width: "100%",
-                        display: "flex",
-                        gap: "100px",
-                      }}
-                    >
-                      <div style={{ width: "40%" }}>
-                        <input
-                          type="text"
-                          name="courseName"
-                          value={course.name}
-                          onChange={(e) => handleInputChange(index, e)}
-                          placeholder="Course Name"
-                        />
-                      </div>
-                      {/* <div>
+                    {courses.map((course, index) => (
+                      <div
+                        key={index}
+                        className="formInput"
+                        style={{
+                          width: "100%",
+                          display: "flex",
+                          gap: "100px",
+                        }}
+                      >
+                        <div style={{ width: "40%" }}>
+                          <input
+                            type="text"
+                            name="courseName"
+                            value={course.name}
+                            onChange={(e) => handleInputChange(index, e)}
+                            placeholder="Course Name"
+                          />
+                        </div>
+                        {/* <div>
                       <label>Course ID</label>
                       <input
                         type="text"
@@ -201,20 +200,21 @@ const ResultForm = ({ inputs, title }) => {
                         placeholder="Credit Hours"
                       />
                     </div> */}
-                      <div>
-                        <input
-                          type="text"
-                          name="marks"
-                          value={course.marks}
-                          onChange={(e) => handleInputChange(index, e)}
-                          placeholder="Marks"
-                        />
+                        <div>
+                          <input
+                            type="text"
+                            name="marks"
+                            value={course.marks}
+                            onChange={(e) => handleInputChange(index, e)}
+                            placeholder="Marks"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </form>
+                    ))}
+                  </div>
+                )}
+              </form>
+            )}
             <div className="btnContainer">
               <button onClick={handleSubmit}>Send</button>
             </div>
