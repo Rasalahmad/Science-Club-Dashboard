@@ -101,23 +101,6 @@ export const resultInputs = [
     placeholder: "Student ID",
   },
   {
-    id: "semester",
-    label: "Semester",
-    type: "select", // Change the type to "select"
-    placeholder: "Semester",
-    options: [
-      { value: "1st", label: "1st" },
-      { value: "2nd", label: "2nd" },
-      { value: "3rd", label: "3rd" },
-      { value: "4th", label: "4th" },
-      { value: "5th", label: "5th" },
-      { value: "6th", label: "6th" },
-      { value: "7th", label: "7th" },
-      { value: "8th", label: "8th" },
-      { value: "9th", label: "9th" },
-    ],
-  },
-  {
     id: "examType",
     label: "Assessments",
     type: "select", // Change the type to "select"
