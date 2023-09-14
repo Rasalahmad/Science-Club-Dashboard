@@ -21,17 +21,19 @@ const Sidebar = () => {
     <div className="sidebar">
       <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <span className="logo">lamadmin</span>
+          <span className="logo">CLUB COMPASS</span>
         </Link>
       </div>
       <hr />
       <div className="center">
         <ul>
           <p className="title">MAIN</p>
-          <li>
-            <DashboardIcon className="icon" />
-            <span>Dashboard</span>
-          </li>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <li>
+              <DashboardIcon className="icon" />
+              <span>Dashboard</span>
+            </li>
+          </Link>
           <p className="title">LISTS</p>
           <Link to="/faculty" style={{ textDecoration: "none" }}>
             <li>
@@ -45,19 +47,56 @@ const Sidebar = () => {
               <span>Committee</span>
             </li>
           </Link>
-          <li>
-            <CreditCardIcon className="icon" />
-            <span>Orders</span>
-          </li>
-          <li>
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
-          </li>
+          <Link to="/notices" style={{ textDecoration: "none" }}>
+            <li>
+              <CreditCardIcon className="icon" />
+              <span>Notices</span>
+            </li>
+          </Link>
+          <Link to="/events" style={{ textDecoration: "none" }}>
+            <li>
+              <LocalShippingIcon className="icon" />
+              <span>Events</span>
+            </li>
+          </Link>
+          <Link to="/journals" style={{ textDecoration: "none" }}>
+            <li>
+              <PsychologyOutlinedIcon className="icon" />
+              <span>Journals</span>
+            </li>
+          </Link>
           <p className="title">MANAGE RESULT</p>
           <Link to="/result" style={{ textDecoration: "none" }}>
             <li>
               <InsertChartIcon className="icon" />
               <span>Add Result</span>
+            </li>
+          </Link>
+          <Link
+            to="/committee/committeeForm"
+            style={{ textDecoration: "none" }}
+          >
+            <li>
+              <InsertChartIcon className="icon" />
+              <span>Add Committee</span>
+            </li>
+          </Link>
+          <Link to="/faculty/facultyForm" style={{ textDecoration: "none" }}>
+            <li>
+              <InsertChartIcon className="icon" />
+              <span>Add Faculty</span>
+            </li>
+          </Link>
+          <Link to="/add-notice" style={{ textDecoration: "none" }}>
+            <li>
+              <InsertChartIcon className="icon" />
+              <span>Add Notice</span>
+            </li>
+          </Link>
+          <Link to="/events" style={{ textDecoration: "none" }}>
+            <li>
+              <InsertChartIcon className="icon" />
+              <span>Add Events</span>
             </li>
           </Link>
           <li>

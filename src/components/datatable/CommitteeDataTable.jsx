@@ -76,7 +76,7 @@ const CommitteeDataTable = () => {
       ) : (
         <div className="datatable">
           <div className="datatableTitle">
-            Add New Committee Member
+            Committee Members
             <Link to={`/committee/committeeForm`} className="link">
               Add New
             </Link>

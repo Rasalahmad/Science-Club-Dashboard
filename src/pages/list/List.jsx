@@ -5,6 +5,9 @@ import Datatable from "../../components/datatable/Datatable";
 import { useLocation } from "react-router-dom";
 import CommitteeDataTable from "../../components/datatable/CommitteeDataTable";
 import FacultyDataTable from "../../components/datatable/FacultyDataTable";
+import NoticeDataTable from "../../components/datatable/NoticeDataTable";
+import EventDataTable from "../../components/datatable/EventDataTable";
+import JournalDataTable from "../../components/datatable/JournalDataTable";
 
 const List = () => {
   const location = useLocation();
@@ -18,6 +21,12 @@ const List = () => {
           <FacultyDataTable />
         ) : location.pathname === "/committee" ? (
           <CommitteeDataTable />
+        ) : location.pathname === "/notices" ? (
+          <NoticeDataTable />
+        ) : location.pathname === "/events" ? (
+          <EventDataTable />
+        ) : location.pathname === "/journals" ? (
+          <JournalDataTable />
         ) : (
           <></>
         )}

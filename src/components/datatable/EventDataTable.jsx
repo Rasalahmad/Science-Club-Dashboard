@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { makeRequest } from "../../axios";
 
-const FacultyDataTable = () => {
+const EventDataTable = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ const FacultyDataTable = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await makeRequest.get("/faculty");
+        const res = await makeRequest.get("/event");
         setData(res.data.data);
       } catch (err) {
         setError(err);
@@ -55,7 +55,7 @@ const FacultyDataTable = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/faculty/test" style={{ textDecoration: "none" }}>
+            <Link to="/notice/test" style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div
@@ -76,9 +76,9 @@ const FacultyDataTable = () => {
       ) : (
         <div className="datatable">
           <div className="datatableTitle">
-            Faculty Members
+            Event List
             <Link to={`/faculty/facultyForm`} className="link">
-              Add New
+              Add Event
             </Link>
           </div>
           <DataGrid
@@ -97,4 +97,4 @@ const FacultyDataTable = () => {
   );
 };
 
-export default FacultyDataTable;
+export default EventDataTable;

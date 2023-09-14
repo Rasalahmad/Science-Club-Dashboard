@@ -39,6 +39,48 @@ function App() {
                 element={
                   <CommitteeForm
                     inputs={committeeInputs}
+                    title="Add New Committee Member"
+                  />
+                }
+              />
+            </Route>
+            <Route path="notices">
+              <Route index element={<List />} />
+              <Route path=":noticeId" element={<Single />} />
+              <Route
+                path="noticeForm"
+                // ! have to change
+                element={
+                  <CommitteeForm
+                    inputs={committeeInputs}
+                    title="Add New Member"
+                  />
+                }
+              />
+            </Route>
+            <Route path="events">
+              <Route index element={<List />} />
+              <Route path=":noticeId" element={<Single />} />
+              <Route
+                path="noticeForm"
+                // ! have to change
+                element={
+                  <CommitteeForm
+                    inputs={committeeInputs}
+                    title="Add New Member"
+                  />
+                }
+              />
+            </Route>
+            <Route path="journals">
+              <Route index element={<List />} />
+              <Route path=":noticeId" element={<Single />} />
+              <Route
+                path="noticeForm"
+                // ! have to change
+                element={
+                  <CommitteeForm
+                    inputs={committeeInputs}
                     title="Add New Member"
                   />
                 }

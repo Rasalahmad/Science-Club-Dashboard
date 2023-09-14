@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { makeRequest } from "../../axios";
 
-const FacultyDataTable = () => {
+const JournalDataTable = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ const FacultyDataTable = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await makeRequest.get("/faculty");
+        const res = await makeRequest.get("/notice");
         setData(res.data.data);
       } catch (err) {
         setError(err);
@@ -55,7 +55,7 @@ const FacultyDataTable = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/faculty/test" style={{ textDecoration: "none" }}>
+            <Link to="/notice/test" style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div
@@ -76,12 +76,12 @@ const FacultyDataTable = () => {
       ) : (
         <div className="datatable">
           <div className="datatableTitle">
-            Faculty Members
+            Journal List
             <Link to={`/faculty/facultyForm`} className="link">
-              Add New
+              Add Journal
             </Link>
           </div>
-          <DataGrid
+          {/* <DataGrid
             className="datagrid"
             rows={data}
             columns={userColumns.concat(actionColumn)}
@@ -90,11 +90,12 @@ const FacultyDataTable = () => {
             checkboxSelection
             getRowId={(rows) => rows._id}
           />
-          {error && <p>{error}</p>}
+          {error && <p>{error}</p>} */}
+          <h2>Will Update Soon</h2>
         </div>
       )}
     </>
   );
 };
 
-export default FacultyDataTable;
+export default JournalDataTable;
