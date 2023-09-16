@@ -106,7 +106,7 @@ const ResultForm = ({ inputs, title }) => {
               value={semester}
               onChange={handleSemester}
             >
-              <option>Choose department</option>
+              <option>Choose semester</option>
               <option>1st</option>
               <option>2nd</option>
               <option>3rd</option>

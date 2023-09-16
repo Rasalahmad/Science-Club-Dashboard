@@ -83,16 +83,6 @@ export const resultColumn = [
     headerName: "Marks",
     width: 200,
   },
-  {
-    field: "point",
-    headerName: "Point",
-    width: 200,
-  },
-  {
-    field: "grade",
-    headerName: "Grade",
-    width: 200,
-  },
 ];
 
 //temporary data

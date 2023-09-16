@@ -52,49 +52,105 @@ const ResultDataTabe = () => {
     fetchData();
   }, [department, examType, semester, stdId]);
 
-  // const handleDelete = (id) => {
-  //   Swal.fire({
-  //     title: "Are you sure?",
-  //     text: "You won't be able to revert this!",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //     confirmButtonText: "Yes, delete it!",
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       try {
-  //         makeRequest.delete(`/faculty/${id}`);
-  //         setData(data.filter((item) => item._id !== id));
-  //         Swal.fire("Deleted!", "Your file has been deleted.", "success");
-  //       } catch (err) {
-  //         setError(err);
-  //       }
-  //     }
-  //   });
-  // };
-  // const actionColumn = [
-  //   {
-  //     field: "action",
-  //     headerName: "Action",
-  //     width: 200,
-  //     renderCell: (params) => {
-  //       return (
-  //         <div className="cellAction">
-  //           <Link to="/notice/test" style={{ textDecoration: "none" }}>
-  //             <div className="viewButton">View</div>
-  //           </Link>
-  //           <div
-  //             className="deleteButton"
-  //             onClick={() => handleDelete(params.row._id)}
-  //           >
-  //             Delete
-  //           </div>
-  //         </div>
-  //       );
-  //     },
-  //   },
-  // ];
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          makeRequest.delete(`/faculty/${id}`);
+          setData(data.filter((item) => item._id !== id));
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        } catch (err) {
+          setError(err);
+        }
+      }
+    });
+  };
+
+  const calculation = (percentage, grade) => {
+    if (percentage >= 80) {
+      return grade ? "A+" : 4.0;
+    } else if (percentage <= 75 && percentage < 80) {
+      return grade ? "A" : 3.75;
+    } else if (percentage <= 70 && percentage < 75) {
+      return grade ? "A-" : 3.5;
+    } else if (percentage <= 65 && percentage < 70) {
+      return grade ? "B+" : 3.25;
+    } else if (percentage <= 60 && percentage < 65) {
+      return grade ? "B" : 3.0;
+    } else if (percentage <= 55 && percentage < 60) {
+      return grade ? "B-" : 2.75;
+    } else if (percentage <= 50 && percentage < 55) {
+      return grade ? "C+" : 2.5;
+    } else if (percentage <= 45 && percentage < 50) {
+      return grade ? "C" : 2.25;
+    } else if (percentage <= 40 && percentage < 45) {
+      return grade ? "D" : 2.0;
+    } else {
+      return grade ? "F" : 0.0;
+    }
+  };
+
+  const totalCredit = data?.courses?.reduce(
+    (sum, course) => sum + course.credit,
+    0
+  );
+
+  const totalCgpa = data?.courses?.reduce((sum, course) => {
+    const gp = calculation((Number(course.marks) / 50) * 100);
+    const qp = gp * course.credit;
+    return sum + qp;
+  }, 0);
+
+  const cgpa = totalCgpa / totalCredit;
+
+  const actionColumn = [
+    {
+      field: "point",
+      headerName: "Point",
+      width: 200,
+      renderCell: (params) => {
+        const percentage = (Number(params.row.marks) / 50) * 100;
+        return <div>{calculation(percentage)}</div>;
+      },
+    },
+    {
+      field: "grade",
+      headerName: "Grade",
+      width: 200,
+      renderCell: (params) => {
+        const percentage = (Number(params.row.marks) / 50) * 100;
+        return <div>{calculation(percentage, true)}</div>;
+      },
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 200,
+      renderCell: (params) => {
+        return (
+          <div className="cellAction">
+            <Link to="/notice/test" style={{ textDecoration: "none" }}>
+              <div className="viewButton">View</div>
+            </Link>
+            <div
+              className="deleteButton"
+              onClick={() => handleDelete(params.row._id)}
+            >
+              Delete
+            </div>
+          </div>
+        );
+      },
+    },
+  ];
 
   console.log(data, "data");
   return (
@@ -104,7 +160,8 @@ const ResultDataTabe = () => {
       ) : (
         <div className="datatable">
           <div className="datatableTitle">
-            Result {data?.stdName && `of ${data?.stdName}`}
+            Result {data?.stdName && `of ${data?.stdName}`} <br /> CGPA :{" "}
+            {cgpa.toFixed(2)}
           </div>
           <div style={{ display: "flex", gap: "50px" }}>
             <div style={{ display: "flex", gap: "10px" }}>
@@ -234,7 +291,7 @@ const ResultDataTabe = () => {
             <DataGrid
               className="datagrid"
               rows={data?.courses}
-              columns={resultColumn}
+              columns={resultColumn.concat(actionColumn)}
               pageSize={9}
               rowsPerPageOptions={[9]}
               checkboxSelection
