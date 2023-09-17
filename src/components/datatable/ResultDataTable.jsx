@@ -160,8 +160,10 @@ const ResultDataTabe = () => {
       ) : (
         <div className="datatable">
           <div className="datatableTitle">
-            Result {data?.stdName && `of ${data?.stdName}`} <br /> CGPA :{" "}
-            {cgpa.toFixed(2)}
+            Result {data?.stdName && `of ${data?.stdName}`} <br />{" "}
+            {data?.stdName &&
+              `CGPA :{" "}
+            ${cgpa.toFixed(2)}`}
           </div>
           <div style={{ display: "flex", gap: "50px" }}>
             <div style={{ display: "flex", gap: "10px" }}>
