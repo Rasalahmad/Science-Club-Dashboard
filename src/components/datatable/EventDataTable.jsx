@@ -37,7 +37,7 @@ const EventDataTable = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         try {
-          makeRequest.delete(`/faculty/${id}`);
+          makeRequest.delete(`/event/${id}`);
           setData(data.filter((item) => item._id !== id));
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
         } catch (err) {
@@ -47,7 +47,22 @@ const EventDataTable = () => {
     });
   };
 
-  const actionColumn = [
+  const eventColumn = [
+    { field: "_id", headerName: "ID", width: 250 },
+    {
+      field: "title",
+      headerName: "Title",
+      width: 350,
+    },
+
+    {
+      field: "desc",
+      headerName: "Description",
+      width: 200,
+      renderCell: (params) => {
+        <div>{params.row.desc.slice(0, 20)}</div>;
+      },
+    },
     {
       field: "action",
       headerName: "Action",
@@ -55,7 +70,7 @@ const EventDataTable = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/notice/test" style={{ textDecoration: "none" }}>
+            <Link to="/event/id" style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div
@@ -69,6 +84,7 @@ const EventDataTable = () => {
       },
     },
   ];
+
   return (
     <>
       {!data || loading ? (
@@ -77,14 +93,14 @@ const EventDataTable = () => {
         <div className="datatable">
           <div className="datatableTitle">
             Event List
-            <Link to={`/faculty/facultyForm`} className="link">
+            <Link to={`/events/add-event`} className="link">
               Add Event
             </Link>
           </div>
           <DataGrid
             className="datagrid"
             rows={data}
-            columns={userColumns.concat(actionColumn)}
+            columns={eventColumn}
             pageSize={9}
             rowsPerPageOptions={[9]}
             checkboxSelection

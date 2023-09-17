@@ -1,6 +1,5 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -37,7 +36,7 @@ const NoticeDataTable = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         try {
-          makeRequest.delete(`/faculty/${id}`);
+          makeRequest.delete(`/notice/${id}`);
           setData(data.filter((item) => item._id !== id));
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
         } catch (err) {
@@ -47,7 +46,25 @@ const NoticeDataTable = () => {
     });
   };
 
-  const actionColumn = [
+  const noticeColumns = [
+    {
+      field: "_id",
+      headerName: "Notice ID",
+      width: 200,
+    },
+    {
+      field: "title",
+      headerName: "Title",
+      width: 200,
+    },
+    {
+      field: "desc",
+      headerName: "Description",
+      width: 200,
+      renderCell: (params) => {
+        return <div>{params.row.desc?.slice(0, 25)}</div>;
+      },
+    },
     {
       field: "action",
       headerName: "Action",
@@ -77,14 +94,14 @@ const NoticeDataTable = () => {
         <div className="datatable">
           <div className="datatableTitle">
             Notice List
-            <Link to={`/faculty/facultyForm`} className="link">
+            <Link to={`notices/add-notice`} className="link">
               Add Notice
             </Link>
           </div>
           <DataGrid
             className="datagrid"
             rows={data}
-            columns={userColumns.concat(actionColumn)}
+            columns={noticeColumns}
             pageSize={9}
             rowsPerPageOptions={[9]}
             checkboxSelection

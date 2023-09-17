@@ -80,7 +80,7 @@ const Sidebar = () => {
             </li>
           </Link>
           <p className="title">MANAGE RESULT</p>
-          <Link to="/add-result" style={{ textDecoration: "none" }}>
+          <Link to="/result/add-result" style={{ textDecoration: "none" }}>
             <li>
               <InsertChartIcon className="icon" />
               <span>Add Result</span>
@@ -101,19 +101,19 @@ const Sidebar = () => {
               <span>Add Faculty</span>
             </li>
           </Link>
-          <Link to="/add-notice" style={{ textDecoration: "none" }}>
+          <Link to="/notices/add-notice" style={{ textDecoration: "none" }}>
             <li>
               <InsertChartIcon className="icon" />
               <span>Add Notice</span>
             </li>
           </Link>
-          <Link to="/events" style={{ textDecoration: "none" }}>
+          <Link to="/events/add-event" style={{ textDecoration: "none" }}>
             <li>
               <InsertChartIcon className="icon" />
               <span>Add Events</span>
             </li>
           </Link>
-          <Link to="/add-course" style={{ textDecoration: "none" }}>
+          <Link to="/courses/add-course" style={{ textDecoration: "none" }}>
             <li>
               <InsertChartIcon className="icon" />
               <span>Add Course</span>

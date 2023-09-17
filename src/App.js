@@ -12,6 +12,8 @@ import { DarkModeContext } from "./context/darkModeContext";
 import ResultForm from "./pages/new/ResultForm";
 import CourseForm from "./pages/new/CourseForm";
 import { LoginContext } from "./context/loginContext";
+import NoticeForm from "./pages/new/NoticeForm";
+import EventForm from "./pages/new/EventForm";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -54,31 +56,19 @@ function App() {
                 </Route>
                 <Route path="notices">
                   <Route index element={<List />} />
-                  <Route path=":noticeId" element={<Single />} />
                   <Route
-                    path="noticeForm"
-                    // ! have to change
-                    element={
-                      <CommitteeForm
-                        inputs={committeeInputs}
-                        title="Add New Member"
-                      />
-                    }
+                    path="add-notice"
+                    element={<NoticeForm title="Add Notice" />}
                   />
+                  <Route path=":noticeId" element={<Single />} />
                 </Route>
                 <Route path="events">
                   <Route index element={<List />} />
-                  <Route path=":noticeId" element={<Single />} />
                   <Route
-                    path="noticeForm"
-                    // ! have to change
-                    element={
-                      <CommitteeForm
-                        inputs={committeeInputs}
-                        title="Add New Member"
-                      />
-                    }
+                    path="add-event"
+                    element={<EventForm title="Add Notice" />}
                   />
+                  <Route path=":eventID" element={<Single />} />
                 </Route>
                 <Route path="journals">
                   <Route index element={<List />} />
@@ -94,25 +84,24 @@ function App() {
                     }
                   />
                 </Route>
-                <Route
-                  path="add-result"
-                  element={
-                    <ResultForm inputs={resultInputs} title="Add Result" />
-                  }
-                />
-                <Route
-                  path="add-course"
-                  element={
-                    <CourseForm inputs={resultInputs} title="Add Course" />
-                  }
-                />
+
                 <Route path="courses">
                   <Route index element={<List />} />
-                  <Route path=":noticeId" element={<Single />} />
+                  <Route
+                    path="add-course"
+                    element={<CourseForm title="Add Course" />}
+                  />
+                  <Route path=":courseID" element={<Single />} />
                 </Route>
                 <Route path="result">
                   <Route index element={<List />} />
-                  <Route path=":noticeId" element={<Single />} />
+                  <Route
+                    path="add-result"
+                    element={
+                      <ResultForm inputs={resultInputs} title="Add Result" />
+                    }
+                  />
+                  <Route path=":resultID" element={<Single />} />
                 </Route>
               </>
             ) : (
