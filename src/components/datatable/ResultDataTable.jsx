@@ -75,6 +75,7 @@ const ResultDataTabe = () => {
   };
 
   const calculation = (percentage, grade) => {
+    console.log(percentage, "percent");
     if (percentage >= 80) {
       return grade ? "A+" : 4.0;
     } else if (percentage <= 75 && percentage < 80) {
@@ -104,7 +105,9 @@ const ResultDataTabe = () => {
   );
 
   const totalCgpa = data?.courses?.reduce((sum, course) => {
-    const gp = calculation((Number(course.marks) / 50) * 100);
+    const gp = calculation(
+      (Number(course.marks) / data?.examType === "Mid-term" ? 30 : 50) * 100
+    );
     const qp = gp * course.credit;
     return sum + qp;
   }, 0);
@@ -117,16 +120,23 @@ const ResultDataTabe = () => {
       headerName: "Point",
       width: 200,
       renderCell: (params) => {
-        const percentage = (Number(params.row.marks) / 50) * 100;
+        const percentage =
+          (Number(params.row.marks) /
+            (data?.examType === "Mid-term" ? 30 : 100)) *
+          100;
+        console.log((params.row.marks / 100) * 100, "text");
         return <div>{calculation(percentage)}</div>;
       },
     },
     {
       field: "grade",
-      headerName: "Grade",
       width: 200,
       renderCell: (params) => {
-        const percentage = (Number(params.row.marks) / 50) * 100;
+        console.log(params);
+        const percentage =
+          (Number(params.row.marks) /
+            (data?.examType === "Mid-term" ? 30 : 100)) *
+          100;
         return <div>{calculation(percentage, true)}</div>;
       },
     },
@@ -152,7 +162,6 @@ const ResultDataTabe = () => {
     },
   ];
 
-  console.log(data, "data");
   return (
     <>
       {loading ? (
@@ -160,9 +169,9 @@ const ResultDataTabe = () => {
       ) : (
         <div className="datatable">
           <div className="datatableTitle">
-            Result {data?.stdName && `of ${data?.stdName}`} <br />{" "}
+            Result {data?.stdName && `of ${data?.stdName}`} <br />
             {data?.stdName &&
-              `CGPA :{" "}
+              `CGPA :
             ${cgpa.toFixed(2)}`}
           </div>
           <div style={{ display: "flex", gap: "50px" }}>
