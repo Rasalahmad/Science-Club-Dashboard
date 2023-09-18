@@ -5,11 +5,15 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { makeRequest } from "../../axios";
+import CommitteeModal from "../modal/CommitteeModal";
 
 const CommitteeDataTable = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [item, setItem] = useState({});
+  const Toggle = () => setModal(!modal);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +51,11 @@ const CommitteeDataTable = () => {
     });
   };
 
+  const handleSingleItem = (id) => {
+    setItem(data?.filter((item) => item._id === id));
+    Toggle();
+  };
+
   const actionColumn = [
     {
       field: "action",
@@ -55,9 +64,12 @@ const CommitteeDataTable = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/committee/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link>
+            <div
+              className="viewButton"
+              onClick={() => handleSingleItem(params.row._id)}
+            >
+              View
+            </div>
             <div
               className="deleteButton"
               onClick={() => handleDelete(params.row._id)}
@@ -93,6 +105,7 @@ const CommitteeDataTable = () => {
           {error && <p>{error}</p>}
         </div>
       )}
+      <CommitteeModal show={modal} close={Toggle} item={item} />
     </>
   );
 };

@@ -1,15 +1,19 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns } from "../../datatablesource";
+import { facultyColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { makeRequest } from "../../axios";
+import FacultyModal from "../modal/FacultyModal";
 
 const FacultyDataTable = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [item, setItem] = useState([]);
+  const Toggle = () => setModal(!modal);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +51,11 @@ const FacultyDataTable = () => {
     });
   };
 
+  const handleSingleItem = (id) => {
+    setItem(data?.filter((item) => item._id === id));
+    Toggle();
+  };
+
   const actionColumn = [
     {
       field: "action",
@@ -55,9 +64,12 @@ const FacultyDataTable = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/faculty/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link>
+            <div
+              onClick={() => handleSingleItem(params.row._id)}
+              className="viewButton"
+            >
+              View
+            </div>
             <div
               className="deleteButton"
               onClick={() => handleDelete(params.row._id)}
@@ -84,7 +96,7 @@ const FacultyDataTable = () => {
           <DataGrid
             className="datagrid"
             rows={data}
-            columns={userColumns.concat(actionColumn)}
+            columns={facultyColumns.concat(actionColumn)}
             pageSize={9}
             rowsPerPageOptions={[9]}
             checkboxSelection
@@ -93,6 +105,7 @@ const FacultyDataTable = () => {
           {error && <p>{error}</p>}
         </div>
       )}
+      <FacultyModal show={modal} close={Toggle} item={item} />
     </>
   );
 };
