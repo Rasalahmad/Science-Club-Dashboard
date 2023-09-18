@@ -45,50 +45,6 @@ const CourseDataTable = () => {
     fetchData();
   }, [department, semester]);
 
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        try {
-          makeRequest.delete(`/faculty/${id}`);
-          setData(data.filter((item) => item._id !== id));
-          Swal.fire("Deleted!", "Your file has been deleted.", "success");
-        } catch (err) {
-          setError(err);
-        }
-      }
-    });
-  };
-
-  const actionColumn = [
-    {
-      field: "action",
-      headerName: "Action",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="cellAction">
-            <Link to="/notice/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link>
-            <div
-              className="deleteButton"
-              onClick={() => handleDelete(params.row._id)}
-            >
-              Delete
-            </div>
-          </div>
-        );
-      },
-    },
-  ];
   return (
     <>
       {!data || loading ? (
@@ -178,7 +134,7 @@ const CourseDataTable = () => {
             <DataGrid
               className="datagrid"
               rows={data}
-              columns={courseColumn.concat(actionColumn)}
+              columns={courseColumn}
               pageSize={9}
               rowsPerPageOptions={[9]}
               checkboxSelection

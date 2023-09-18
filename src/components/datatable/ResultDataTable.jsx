@@ -52,28 +52,6 @@ const ResultDataTabe = () => {
     fetchData();
   }, [department, examType, semester, stdId]);
 
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        try {
-          makeRequest.delete(`/faculty/${id}`);
-          setData(data.filter((item) => item._id !== id));
-          Swal.fire("Deleted!", "Your file has been deleted.", "success");
-        } catch (err) {
-          setError(err);
-        }
-      }
-    });
-  };
-
   const calculation = (percentage, grade) => {
     console.log(percentage, "percent");
     if (percentage >= 80) {
@@ -138,26 +116,6 @@ const ResultDataTabe = () => {
             (data?.examType === "Mid-term" ? 30 : 100)) *
           100;
         return <div>{calculation(percentage, true)}</div>;
-      },
-    },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="cellAction">
-            <Link to="/notice/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link>
-            <div
-              className="deleteButton"
-              onClick={() => handleDelete(params.row._id)}
-            >
-              Delete
-            </div>
-          </div>
-        );
       },
     },
   ];

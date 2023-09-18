@@ -66,7 +66,7 @@ function App() {
                   <Route index element={<List />} />
                   <Route
                     path="add-event"
-                    element={<EventForm title="Add Notice" />}
+                    element={<EventForm title="Add Event" />}
                   />
                   <Route path=":eventID" element={<Single />} />
                 </Route>
