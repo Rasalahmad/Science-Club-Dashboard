@@ -12,7 +12,17 @@ const Home = () => {
       <Sidebar />
       <div className="homeContainer">
         <Navbar />
-        <div className="widgets">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "80vh",
+          }}
+        >
+          <h2>Welcome to Science Club App Dashboard</h2>
+        </div>
+        {/* <div className="widgets">
           <Widget type="user" />
           <Widget type="order" />
           <Widget type="earning" />
@@ -25,7 +35,7 @@ const Home = () => {
         <div className="listContainer">
           <div className="listTitle">Latest Transactions</div>
           <Table />
-        </div>
+        </div> */}
       </div>
     </div>
   );

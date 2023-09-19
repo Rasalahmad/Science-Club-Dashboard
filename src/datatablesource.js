@@ -42,6 +42,43 @@ export const userColumns = [
   },
 ];
 
+export const facultyColumns = [
+  { field: "_id", headerName: "ID", width: 250 },
+  {
+    field: "image",
+    headerName: "User",
+    width: 230,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <img
+            className="cellImg"
+            src={`http://localhost:5000/images/${params.row.image}`}
+            alt="avatar"
+          />
+          {params.row.name}
+        </div>
+      );
+    },
+  },
+  {
+    field: "designation",
+    headerName: "Designation",
+    width: 200,
+  },
+  {
+    field: "role",
+    headerName: "Role",
+    width: 160,
+    renderCell: (params) => {
+      return (
+        <div className={`cellWithStatus ${params.row.role}`}>
+          {params.row.role}
+        </div>
+      );
+    },
+  },
+];
 export const courseColumn = [
   { field: "_id", headerName: "ID", width: 250 },
   {
@@ -81,16 +118,6 @@ export const resultColumn = [
   {
     field: "marks",
     headerName: "Marks",
-    width: 200,
-  },
-  {
-    field: "point",
-    headerName: "Point",
-    width: 200,
-  },
-  {
-    field: "grade",
-    headerName: "Grade",
     width: 200,
   },
 ];

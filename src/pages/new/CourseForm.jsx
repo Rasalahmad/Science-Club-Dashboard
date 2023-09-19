@@ -28,8 +28,6 @@ const CourseForm = ({ inputs, title }) => {
     setCredit(event.target.value);
   };
 
-  console.log(typeof Number(credit));
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
@@ -138,9 +136,7 @@ const CourseForm = ({ inputs, title }) => {
                 </div>
               </div>
             </form>
-            <div className="btnContainer">
-              <button onClick={handleSubmit}>Send</button>
-            </div>
+            <button onClick={handleSubmit}>Send</button>
           </div>
         </div>
       </div>

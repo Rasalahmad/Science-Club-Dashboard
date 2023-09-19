@@ -1,10 +1,11 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import React, { useEffect, useRef, useState } from "react";
 import { makeRequest } from "../../axios";
 import { resultColumn } from "../../datatablesource";
+import ReactToPrint from "react-to-print";
+import { ComponentToPrint } from "../marksheet/Marksheet";
+import { calculation } from "../../utils";
 
 const ResultDataTabe = () => {
   const [data, setData] = useState([]);
@@ -52,59 +53,101 @@ const ResultDataTabe = () => {
     fetchData();
   }, [department, examType, semester, stdId]);
 
-  // const handleDelete = (id) => {
-  //   Swal.fire({
-  //     title: "Are you sure?",
-  //     text: "You won't be able to revert this!",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //     confirmButtonText: "Yes, delete it!",
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       try {
-  //         makeRequest.delete(`/faculty/${id}`);
-  //         setData(data.filter((item) => item._id !== id));
-  //         Swal.fire("Deleted!", "Your file has been deleted.", "success");
-  //       } catch (err) {
-  //         setError(err);
-  //       }
-  //     }
-  //   });
-  // };
-  // const actionColumn = [
-  //   {
-  //     field: "action",
-  //     headerName: "Action",
-  //     width: 200,
-  //     renderCell: (params) => {
-  //       return (
-  //         <div className="cellAction">
-  //           <Link to="/notice/test" style={{ textDecoration: "none" }}>
-  //             <div className="viewButton">View</div>
-  //           </Link>
-  //           <div
-  //             className="deleteButton"
-  //             onClick={() => handleDelete(params.row._id)}
-  //           >
-  //             Delete
-  //           </div>
-  //         </div>
-  //       );
-  //     },
-  //   },
-  // ];
+  const totalCredit = data?.courses?.reduce(
+    (sum, course) => sum + course.credit,
+    0
+  );
 
-  console.log(data, "data");
+  const totalCgpa = data?.courses?.reduce((sum, course) => {
+    const gp = calculation(
+      (Number(course.marks) / data?.examType === "Mid-term" ? 30 : 100) * 100
+    );
+    const qp = gp * course.credit;
+    return sum + qp;
+  }, 0);
+
+  const cgpa = totalCgpa / totalCredit;
+
+  const actionColumn = [
+    {
+      field: "point",
+      headerName: "Point",
+      width: 200,
+      renderCell: (params) => {
+        const percentage =
+          (Number(params.row.marks) /
+            (data?.examType === "Mid-term" ? 30 : 100)) *
+          100;
+        return <div>{calculation(percentage)}</div>;
+      },
+    },
+    {
+      field: "grade",
+      width: 200,
+      renderCell: (params) => {
+        console.log(params);
+        const percentage =
+          (Number(params.row.marks) /
+            (data?.examType === "Mid-term" ? 30 : 100)) *
+          100;
+        return <div>{calculation(percentage, true)}</div>;
+      },
+    },
+  ];
+
+  const componentRef = useRef();
+
   return (
     <>
       {loading ? (
         "Loading"
       ) : (
         <div className="datatable">
-          <div className="datatableTitle">
-            Result {data?.stdName && `of ${data?.stdName}`}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <div className="datatableTitle">
+              Result {data?.stdName && `of ${data?.stdName}`} <br />
+              {data?.stdName &&
+                `CGPA :
+            ${cgpa.toFixed(2)}`}
+            </div>
+            {data?.stdName && (
+              <div>
+                <ReactToPrint
+                  trigger={() => (
+                    <button
+                      style={{
+                        width: "max-content",
+                        border: "none",
+                        outline: "none",
+                        padding: "10px 15px",
+                        fontSize: "16px",
+                        background: "#aaaaff",
+                        borderRadius: "7px",
+                        cursor: "pointer",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Print this out!
+                    </button>
+                  )}
+                  content={() => componentRef.current}
+                />
+                <div style={{ display: "none" }}>
+                  <ComponentToPrint
+                    ref={componentRef}
+                    data={data}
+                    department={department}
+                    cgpa={cgpa}
+                  />
+                </div>
+              </div>
+            )}
           </div>
           <div style={{ display: "flex", gap: "50px" }}>
             <div style={{ display: "flex", gap: "10px" }}>
@@ -234,7 +277,7 @@ const ResultDataTabe = () => {
             <DataGrid
               className="datagrid"
               rows={data?.courses}
-              columns={resultColumn}
+              columns={resultColumn.concat(actionColumn)}
               pageSize={9}
               rowsPerPageOptions={[9]}
               checkboxSelection

@@ -14,9 +14,11 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import { LoginContext } from "../../context/loginContext";
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
+  const { handleLogout } = useContext(LoginContext);
   return (
     <div className="sidebar">
       <div className="top">
@@ -78,7 +80,7 @@ const Sidebar = () => {
             </li>
           </Link>
           <p className="title">MANAGE RESULT</p>
-          <Link to="/add-result" style={{ textDecoration: "none" }}>
+          <Link to="/result/add-result" style={{ textDecoration: "none" }}>
             <li>
               <InsertChartIcon className="icon" />
               <span>Add Result</span>
@@ -99,19 +101,19 @@ const Sidebar = () => {
               <span>Add Faculty</span>
             </li>
           </Link>
-          <Link to="/add-notice" style={{ textDecoration: "none" }}>
+          <Link to="/notices/add-notice" style={{ textDecoration: "none" }}>
             <li>
               <InsertChartIcon className="icon" />
               <span>Add Notice</span>
             </li>
           </Link>
-          <Link to="/events" style={{ textDecoration: "none" }}>
+          <Link to="/events/add-event" style={{ textDecoration: "none" }}>
             <li>
               <InsertChartIcon className="icon" />
               <span>Add Events</span>
             </li>
           </Link>
-          <Link to="/add-course" style={{ textDecoration: "none" }}>
+          <Link to="/courses/add-course" style={{ textDecoration: "none" }}>
             <li>
               <InsertChartIcon className="icon" />
               <span>Add Course</span>
@@ -139,7 +141,7 @@ const Sidebar = () => {
             <AccountCircleOutlinedIcon className="icon" />
             <span>Profile</span>
           </li>
-          <li>
+          <li onClick={() => handleLogout()}>
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
           </li>
