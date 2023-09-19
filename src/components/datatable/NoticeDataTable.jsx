@@ -4,11 +4,15 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { makeRequest } from "../../axios";
+import Modal from "../modal/Modal";
 
 const NoticeDataTable = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [item, setItem] = useState([]);
+  const Toggle = () => setModal(!modal);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,6 +50,11 @@ const NoticeDataTable = () => {
     });
   };
 
+  const handleSingleItem = (id) => {
+    setItem(data?.filter((item) => item._id === id));
+    Toggle();
+  };
+
   const noticeColumns = [
     {
       field: "_id",
@@ -72,9 +81,12 @@ const NoticeDataTable = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/notice/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link>
+            <div
+              className="viewButton"
+              onClick={() => handleSingleItem(params.row._id)}
+            >
+              View
+            </div>
             <div
               className="deleteButton"
               onClick={() => handleDelete(params.row._id)}
@@ -110,6 +122,7 @@ const NoticeDataTable = () => {
           {error && <p>{error}</p>}
         </div>
       )}
+      <Modal show={modal} close={Toggle} item={item} heading={"Notice"} />
     </>
   );
 };

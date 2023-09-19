@@ -1,5 +1,9 @@
 import "./Modal.scss";
 import CloseIcon from "../../assets/close.png";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import TwitterIcon from "@mui/icons-material/Twitter";
 
 const FacultyModal = ({ show, close, item }) => {
   return (
@@ -24,7 +28,37 @@ const FacultyModal = ({ show, close, item }) => {
             <main className="modal_content">
               <p>{item[0]?.designation}</p>
               <p>{item[0]?.university}</p>
-              <p>{item[0]?.about}</p>
+              <p>{item[0]?.about}...</p>
+              <p style={{ display: "flex", gap: "25px", marginTop: "25px" }}>
+                <a
+                  href={item[0]?.fbLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FacebookIcon style={{ color: "blue", cursor: "pointer" }} />
+                </a>
+                <a
+                  href={item[0]?.instraLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <InstagramIcon style={{ color: "blue", cursor: "pointer" }} />
+                </a>
+                <a
+                  href={item[0]?.fbLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <LinkedInIcon style={{ color: "blue", cursor: "pointer" }} />
+                </a>
+                <a
+                  href={item[0]?.fbLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <TwitterIcon style={{ color: "blue", cursor: "pointer" }} />
+                </a>
+              </p>
             </main>
             {/* <footer className="modal_footer">
               <button className="modal-close" onClick={() => close()}>

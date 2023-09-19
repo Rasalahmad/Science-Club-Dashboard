@@ -1,15 +1,18 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { makeRequest } from "../../axios";
+import Modal from "../modal/Modal";
 
 const EventDataTable = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [item, setItem] = useState([]);
+  const Toggle = () => setModal(!modal);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +50,11 @@ const EventDataTable = () => {
     });
   };
 
+  const handleSingleItem = (id) => {
+    setItem(data?.filter((item) => item._id === id));
+    Toggle();
+  };
+
   const eventColumn = [
     { field: "_id", headerName: "ID", width: 250 },
     {
@@ -70,9 +78,12 @@ const EventDataTable = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/event/id" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link>
+            <div
+              className="viewButton"
+              onClick={() => handleSingleItem(params.row._id)}
+            >
+              View
+            </div>
             <div
               className="deleteButton"
               onClick={() => handleDelete(params.row._id)}
@@ -109,6 +120,7 @@ const EventDataTable = () => {
           {error && <p>{error}</p>}
         </div>
       )}
+      <Modal show={modal} close={Toggle} item={item} heading={"Notice"} />
     </>
   );
 };

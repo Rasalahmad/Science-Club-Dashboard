@@ -31,10 +31,34 @@ const CommitteeModal = ({ show, close, item }) => {
               <p>{item[0]?.batch} Batch</p>
               <p>{item[0]?.about?.slice(0, 100)}</p>
               <p style={{ display: "flex", gap: "25px", marginTop: "25px" }}>
-                <FacebookIcon style={{ color: "blue", cursor: "pointer" }} />
-                <InstagramIcon style={{ color: "blue", cursor: "pointer" }} />
-                <LinkedInIcon style={{ color: "blue", cursor: "pointer" }} />
-                <TwitterIcon style={{ color: "blue", cursor: "pointer" }} />
+                <a
+                  href={item[0]?.fbLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FacebookIcon style={{ color: "blue", cursor: "pointer" }} />
+                </a>
+                <a
+                  href={item[0]?.instraLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <InstagramIcon style={{ color: "blue", cursor: "pointer" }} />
+                </a>
+                <a
+                  href={item[0]?.fbLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <LinkedInIcon style={{ color: "blue", cursor: "pointer" }} />
+                </a>
+                <a
+                  href={item[0]?.fbLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <TwitterIcon style={{ color: "blue", cursor: "pointer" }} />
+                </a>
               </p>
             </main>
             {/* <footer className="modal_footer">

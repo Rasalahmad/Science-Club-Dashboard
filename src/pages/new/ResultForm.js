@@ -215,9 +215,7 @@ const ResultForm = ({ inputs, title }) => {
                 )}
               </form>
             )}
-            <div className="btnContainer">
-              <button onClick={handleSubmit}>Send</button>
-            </div>
+            <button onClick={handleSubmit}>Send</button>
           </div>
         </div>
       </div>
