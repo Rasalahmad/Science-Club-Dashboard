@@ -1,8 +1,11 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { makeRequest } from "../../axios";
 import { resultColumn } from "../../datatablesource";
+import ReactToPrint from "react-to-print";
+import { ComponentToPrint } from "../marksheet/Marksheet";
+import { calculation } from "../../utils";
 
 const ResultDataTabe = () => {
   const [data, setData] = useState([]);
@@ -50,31 +53,6 @@ const ResultDataTabe = () => {
     fetchData();
   }, [department, examType, semester, stdId]);
 
-  const calculation = (percentage, grade) => {
-    console.log(percentage, "percent");
-    if (percentage >= 80) {
-      return grade ? "A+" : 4.0;
-    } else if (percentage <= 75 && percentage < 80) {
-      return grade ? "A" : 3.75;
-    } else if (percentage <= 70 && percentage < 75) {
-      return grade ? "A-" : 3.5;
-    } else if (percentage <= 65 && percentage < 70) {
-      return grade ? "B+" : 3.25;
-    } else if (percentage <= 60 && percentage < 65) {
-      return grade ? "B" : 3.0;
-    } else if (percentage <= 55 && percentage < 60) {
-      return grade ? "B-" : 2.75;
-    } else if (percentage <= 50 && percentage < 55) {
-      return grade ? "C+" : 2.5;
-    } else if (percentage <= 45 && percentage < 50) {
-      return grade ? "C" : 2.25;
-    } else if (percentage <= 40 && percentage < 45) {
-      return grade ? "D" : 2.0;
-    } else {
-      return grade ? "F" : 0.0;
-    }
-  };
-
   const totalCredit = data?.courses?.reduce(
     (sum, course) => sum + course.credit,
     0
@@ -82,7 +60,7 @@ const ResultDataTabe = () => {
 
   const totalCgpa = data?.courses?.reduce((sum, course) => {
     const gp = calculation(
-      (Number(course.marks) / data?.examType === "Mid-term" ? 30 : 50) * 100
+      (Number(course.marks) / data?.examType === "Mid-term" ? 30 : 100) * 100
     );
     const qp = gp * course.credit;
     return sum + qp;
@@ -100,7 +78,6 @@ const ResultDataTabe = () => {
           (Number(params.row.marks) /
             (data?.examType === "Mid-term" ? 30 : 100)) *
           100;
-        console.log((params.row.marks / 100) * 100, "text");
         return <div>{calculation(percentage)}</div>;
       },
     },
@@ -118,17 +95,59 @@ const ResultDataTabe = () => {
     },
   ];
 
+  const componentRef = useRef();
+
   return (
     <>
       {loading ? (
         "Loading"
       ) : (
         <div className="datatable">
-          <div className="datatableTitle">
-            Result {data?.stdName && `of ${data?.stdName}`} <br />
-            {data?.stdName &&
-              `CGPA :
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <div className="datatableTitle">
+              Result {data?.stdName && `of ${data?.stdName}`} <br />
+              {data?.stdName &&
+                `CGPA :
             ${cgpa.toFixed(2)}`}
+            </div>
+            {data?.stdName && (
+              <div>
+                <ReactToPrint
+                  trigger={() => (
+                    <button
+                      style={{
+                        width: "max-content",
+                        border: "none",
+                        outline: "none",
+                        padding: "10px 15px",
+                        fontSize: "16px",
+                        background: "#aaaaff",
+                        borderRadius: "7px",
+                        cursor: "pointer",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Print this out!
+                    </button>
+                  )}
+                  content={() => componentRef.current}
+                />
+                <div style={{ display: "none" }}>
+                  <ComponentToPrint
+                    ref={componentRef}
+                    data={data}
+                    department={department}
+                    cgpa={cgpa}
+                  />
+                </div>
+              </div>
+            )}
           </div>
           <div style={{ display: "flex", gap: "50px" }}>
             <div style={{ display: "flex", gap: "10px" }}>
