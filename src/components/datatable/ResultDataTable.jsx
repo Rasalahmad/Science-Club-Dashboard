@@ -111,7 +111,8 @@ const ResultDataTabe = () => {
             }}
           >
             <div className="datatableTitle">
-              Result {data?.stdName && `of ${data?.stdName}`} <br />
+              Result {data?.stdName && `of ${data?.stdName}`} ({data?.stdId}){" "}
+              <br />
               {data?.stdName &&
                 `CGPA :
             ${cgpa.toFixed(2)}`}
