@@ -4,6 +4,7 @@ import Navbar from "../../components/navbar/Navbar";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
+import Loader from "../../components/loader/Loader";
 
 const NotificationForm = ({ title }) => {
   const [info, setInfo] = useState({});
@@ -35,7 +36,7 @@ const NotificationForm = ({ title }) => {
           <h1>{title}</h1>
         </div>
         {loading ? (
-          <p>Loading...</p>
+          <Loader />
         ) : (
           <div className="bottom">
             <div className="right">

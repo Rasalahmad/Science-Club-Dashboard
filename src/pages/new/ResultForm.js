@@ -4,6 +4,7 @@ import Navbar from "../../components/navbar/Navbar";
 import { useEffect, useState } from "react";
 import { makeRequest } from "../../axios";
 import Swal from "sweetalert2";
+import Loader from "../../components/loader/Loader";
 
 const ResultForm = ({ inputs, title }) => {
   const [info, setInfo] = useState({});
@@ -119,7 +120,7 @@ const ResultForm = ({ inputs, title }) => {
               <option>8th</option>
             </select>
             {loading ? (
-              <p>Loading...</p>
+              <Loader />
             ) : (
               <form>
                 {inputs.map((input) => (

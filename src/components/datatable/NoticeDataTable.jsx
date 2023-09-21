@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { makeRequest } from "../../axios";
 import Modal from "../modal/Modal";
+import Loader from "../loader/Loader";
 
 const NoticeDataTable = () => {
   const [data, setData] = useState([]);
@@ -100,16 +101,16 @@ const NoticeDataTable = () => {
   ];
   return (
     <>
-      {!data || loading ? (
-        "Loading"
-      ) : (
-        <div className="datatable">
-          <div className="datatableTitle">
-            Notice List
-            <Link to={`notices/add-notice`} className="link">
-              Add Notice
-            </Link>
-          </div>
+      <div className="datatable">
+        <div className="datatableTitle">
+          Notice List
+          <Link to={`notices/add-notice`} className="link">
+            Add Notice
+          </Link>
+        </div>
+        {loading ? (
+          <Loader />
+        ) : (
           <DataGrid
             className="datagrid"
             rows={data}
@@ -119,9 +120,9 @@ const NoticeDataTable = () => {
             checkboxSelection
             getRowId={(rows) => rows._id}
           />
-          {error && <p>{error}</p>}
-        </div>
-      )}
+        )}
+        {error && <p>{error}</p>}
+      </div>
       <Modal show={modal} close={Toggle} item={item} heading={"Notice"} />
     </>
   );

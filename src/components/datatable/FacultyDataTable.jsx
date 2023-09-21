@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { makeRequest } from "../../axios";
 import FacultyModal from "../modal/FacultyModal";
+import Loader from "../loader/Loader";
 
 const FacultyDataTable = () => {
   const [data, setData] = useState([]);
@@ -83,16 +84,16 @@ const FacultyDataTable = () => {
   ];
   return (
     <>
-      {!data || loading ? (
-        "Loading"
-      ) : (
-        <div className="datatable">
-          <div className="datatableTitle">
-            Faculty Members
-            <Link to={`/faculty/facultyForm`} className="link">
-              Add New
-            </Link>
-          </div>
+      <div className="datatable">
+        <div className="datatableTitle">
+          Faculty Members
+          <Link to={`/faculty/facultyForm`} className="link">
+            Add New
+          </Link>
+        </div>
+        {loading ? (
+          <Loader />
+        ) : (
           <DataGrid
             className="datagrid"
             rows={data}
@@ -102,9 +103,9 @@ const FacultyDataTable = () => {
             checkboxSelection
             getRowId={(rows) => rows._id}
           />
-          {error && <p>{error}</p>}
-        </div>
-      )}
+        )}
+        {error && <p>{error}</p>}
+      </div>
       <FacultyModal show={modal} close={Toggle} item={item} />
     </>
   );

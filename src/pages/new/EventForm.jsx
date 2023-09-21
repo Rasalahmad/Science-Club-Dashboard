@@ -6,6 +6,7 @@ import { makeRequest } from "../../axios";
 import Swal from "sweetalert2";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import axios from "axios";
+import Loader from "../../components/loader/Loader";
 
 const EventForm = ({ title }) => {
   const [info, setInfo] = useState({});
@@ -25,17 +26,17 @@ const EventForm = ({ title }) => {
     };
     const res = await makeRequest.post(`/event`, data);
     if (res.data) {
-      setLoading(true);
       await axios.post("https://app.nativenotify.com/api/notification", {
         appId: 12386,
         appToken: "d8JSh7GNkeXGhsSpQoErcp",
-        title: info?.title?.slice(0, 10),
-        body: info?.desc?.slice(0, 100),
+        title: info?.title,
+        body: info?.desc,
         dateSent: new Date(),
       });
+      setLoading(false);
       Swal.fire("Success", "Course Added successfully", "success");
     } else {
-      setLoading(true);
+      setLoading(false);
       Swal.fire("Error", "Something went wrong", "error");
     }
   };
@@ -49,7 +50,7 @@ const EventForm = ({ title }) => {
           <h1>{title}</h1>
         </div>
         {loading ? (
-          <h1>Loading...</h1>
+          <Loader />
         ) : (
           <div className="bottom">
             <div className="left">
