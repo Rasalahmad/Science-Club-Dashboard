@@ -16,7 +16,7 @@ const FacultyModal = ({ show, close, item }) => {
                 {" "}
                 <img
                   style={{ height: "50px", width: "50px", borderRadius: "50%" }}
-                  src={`http://localhost:5000/images/${item[0].image}`}
+                  src={`https://club-compass.netlify.app/images/${item[0].image}`}
                   alt=""
                 />{" "}
                 {item[0].name}

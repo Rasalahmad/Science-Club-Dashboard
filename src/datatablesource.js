@@ -9,7 +9,7 @@ export const userColumns = [
         <div className="cellWithImg">
           <img
             className="cellImg"
-            src={`http://localhost:5000/images/${params.row.image}`}
+            src={`https://club-compass.netlify.app/images/${params.row.image}`}
             alt="avatar"
           />
           {params.row.name}
@@ -53,7 +53,7 @@ export const facultyColumns = [
         <div className="cellWithImg">
           <img
             className="cellImg"
-            src={`http://localhost:5000/images/${params.row.image}`}
+            src={`https://club-compass.netlify.app/images/${params.row.image}`}
             alt="avatar"
           />
           {params.row.name}
