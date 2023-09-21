@@ -48,7 +48,7 @@ const ResultForm = ({ inputs, title }) => {
           setCourses(res.data.data);
         }
       } catch (err) {
-        // setError(err);
+        Swal.fire("Error", "Something went wrong", "error");
       }
       setLoading(false);
     };
@@ -57,15 +57,17 @@ const ResultForm = ({ inputs, title }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const data = { ...info, courses, semester };
-    console.log(data);
     const res = await makeRequest.post(
       `/result/${department.toLocaleLowerCase()}`,
       data
     );
     if (res.data) {
+      setLoading(false);
       Swal.fire("Success", "Result Added successfully", "success");
     } else {
+      setLoading(false);
       Swal.fire("Error", "Something went wrong", "error");
     }
   };

@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 
 const CourseForm = ({ inputs, title }) => {
   const [info, setInfo] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -30,6 +31,7 @@ const CourseForm = ({ inputs, title }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const data = {
       ...info,
       department,
@@ -38,9 +40,11 @@ const CourseForm = ({ inputs, title }) => {
     };
     const res = await makeRequest.post(`/course`, data);
     if (res.data) {
+      setLoading(false);
       setInfo({});
       Swal.fire("Success", "Course Added successfully", "success");
     } else {
+      setLoading(false);
       Swal.fire("Error", "Something went wrong", "error");
     }
   };

@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 const FacultyForm = ({ inputs, title }) => {
   const [file, setFile] = useState(null);
   const [info, setInfo] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -29,14 +30,17 @@ const FacultyForm = ({ inputs, title }) => {
     e.preventDefault();
     const image = await upload(file);
     const data = { ...info, image };
+    setLoading(true);
     const res = await makeRequest.post("/faculty", data);
     if (res.data) {
+      setLoading(false);
       Swal.fire(
         "Success",
         "The Committee Member Added successfully",
         "success"
       );
     } else {
+      setLoading(false);
       Swal.fire("Error", "Something went wrong", "error");
     }
   };
