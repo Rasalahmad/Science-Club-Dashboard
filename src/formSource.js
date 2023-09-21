@@ -111,3 +111,28 @@ export const resultInputs = [
     ],
   },
 ];
+
+export const notificationInpur = [
+  {
+    id: "stdName",
+    label: "Student Name",
+    type: "text",
+    placeholder: "Stduent Name",
+  },
+  {
+    id: "stdId",
+    label: "Student ID",
+    type: "text",
+    placeholder: "Student ID",
+  },
+  {
+    id: "examType",
+    label: "Assessments",
+    type: "select", // Change the type to "select"
+    placeholder: "Assessments",
+    options: [
+      { value: "Mid-term", label: "Mid-term" },
+      { value: "Final-term", label: "Final-term" },
+    ],
+  },
+];

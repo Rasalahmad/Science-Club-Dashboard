@@ -5,6 +5,7 @@ import { useState } from "react";
 import { makeRequest } from "../../axios";
 import Swal from "sweetalert2";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import axios from "axios";
 
 const EventForm = ({ title }) => {
   const [info, setInfo] = useState({});
@@ -22,7 +23,13 @@ const EventForm = ({ title }) => {
     };
     const res = await makeRequest.post(`/event`, data);
     if (res.data) {
-      setInfo({});
+      await axios.post("https://app.nativenotify.com/api/notification", {
+        appId: 12386,
+        appToken: "d8JSh7GNkeXGhsSpQoErcp",
+        title: info?.title?.slice(0, 10),
+        body: info?.desc?.slice(0, 100),
+        dateSent: new Date(),
+      });
       Swal.fire("Success", "Course Added successfully", "success");
     } else {
       Swal.fire("Error", "Something went wrong", "error");
