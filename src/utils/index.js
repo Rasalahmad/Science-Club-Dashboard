@@ -21,3 +21,27 @@ export const calculation = (percentage, grade) => {
     return grade ? "F" : 0.0;
   }
 };
+
+export const pointsToGrade = (cgpa) => {
+  if (cgpa >= 3.67 && cgpa <= 4.0) {
+    return "A+";
+  } else if (cgpa >= 3.33 && cgpa < 3.67) {
+    return "A";
+  } else if (cgpa >= 3.0 && cgpa < 3.33) {
+    return "A-";
+  } else if (cgpa >= 2.67 && cgpa < 3.0) {
+    return "B+";
+  } else if (cgpa >= 2.33 && cgpa < 2.67) {
+    return "B";
+  } else if (cgpa >= 2.0 && cgpa < 2.33) {
+    return "B-";
+  } else if (cgpa >= 1.67 && cgpa < 2.0) {
+    return "C+";
+  } else if (cgpa >= 1.33 && cgpa < 1.67) {
+    return "C";
+  } else if (cgpa >= 1.0 && cgpa < 1.33) {
+    return "D";
+  } else {
+    return "F"; // Fail
+  }
+};

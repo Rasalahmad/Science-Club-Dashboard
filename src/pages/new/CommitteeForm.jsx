@@ -5,10 +5,12 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import { useState } from "react";
 import { makeRequest } from "../../axios";
 import Swal from "sweetalert2";
+import Loader from "../../components/loader/Loader";
 
 const CommitteeForm = ({ inputs, title }) => {
   const [file, setFile] = useState(null);
   const [info, setInfo] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -27,16 +29,19 @@ const CommitteeForm = ({ inputs, title }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const image = await upload(file);
     const data = { ...info, image };
     const res = await makeRequest.post("/committee", data);
     if (res.data) {
+      setLoading(false);
       Swal.fire(
         "Success",
         "The Committee Member Added successfully",
         "success"
       );
     } else {
+      setLoading(false);
       Swal.fire("Error", "Something went wrong", "error");
     }
   };
@@ -49,46 +54,50 @@ const CommitteeForm = ({ inputs, title }) => {
         <div className="top">
           <h1>{title}</h1>
         </div>
-        <div className="bottom">
-          <div className="left">
-            <img
-              src={
-                file
-                  ? URL.createObjectURL(file)
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-              }
-              alt=""
-            />
-          </div>
-          <div className="right">
-            <form>
-              <div className="formInput">
-                <label htmlFor="file">
-                  Image: <DriveFolderUploadOutlinedIcon className="icon" />
-                </label>
-                <input
-                  type="file"
-                  id="file"
-                  onChange={(e) => setFile(e.target.files[0])}
-                  style={{ display: "none" }}
-                />
-              </div>
-
-              {inputs.map((input) => (
-                <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="bottom">
+            <div className="left">
+              <img
+                src={
+                  file
+                    ? URL.createObjectURL(file)
+                    : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                }
+                alt=""
+              />
+            </div>
+            <div className="right">
+              <form>
+                <div className="formInput">
+                  <label htmlFor="file">
+                    Image: <DriveFolderUploadOutlinedIcon className="icon" />
+                  </label>
                   <input
-                    type={input.type}
-                    id={input.id}
-                    placeholder={input.placeholder}
-                    onChange={handleChange}
+                    type="file"
+                    id="file"
+                    onChange={(e) => setFile(e.target.files[0])}
+                    style={{ display: "none" }}
                   />
                 </div>
-              ))}
-              <button onClick={handleSubmit}>Send</button>
-            </form>
+
+                {inputs.map((input) => (
+                  <div className="formInput" key={input.id}>
+                    <label>{input.label}</label>
+                    <input
+                      type={input.type}
+                      id={input.id}
+                      placeholder={input.placeholder}
+                      onChange={handleChange}
+                    />
+                  </div>
+                ))}
+                <button onClick={handleSubmit}>Send</button>
+              </form>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

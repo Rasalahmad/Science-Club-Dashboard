@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { makeRequest } from "../../axios";
 import CommitteeModal from "../modal/CommitteeModal";
+import Loader from "../loader/Loader";
 
 const CommitteeDataTable = () => {
   const [data, setData] = useState([]);
@@ -83,16 +84,16 @@ const CommitteeDataTable = () => {
   ];
   return (
     <>
-      {!data || loading ? (
-        "Loading"
-      ) : (
-        <div className="datatable">
-          <div className="datatableTitle">
-            Committee Members
-            <Link to={`/committee/committeeForm`} className="link">
-              Add New
-            </Link>
-          </div>
+      <div className="datatable">
+        <div className="datatableTitle">
+          Committee Members
+          <Link to={`/committee/committeeForm`} className="link">
+            Add New
+          </Link>
+        </div>
+        {loading ? (
+          <Loader />
+        ) : (
           <DataGrid
             className="datagrid"
             rows={data}
@@ -102,9 +103,9 @@ const CommitteeDataTable = () => {
             checkboxSelection
             getRowId={(rows) => rows._id}
           />
-          {error && <p>{error}</p>}
-        </div>
-      )}
+        )}
+        {error && <p>{error}</p>}
+      </div>
       <CommitteeModal show={modal} close={Toggle} item={item} />
     </>
   );

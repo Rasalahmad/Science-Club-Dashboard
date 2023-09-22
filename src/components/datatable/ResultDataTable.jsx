@@ -5,7 +5,8 @@ import { makeRequest } from "../../axios";
 import { resultColumn } from "../../datatablesource";
 import ReactToPrint from "react-to-print";
 import { ComponentToPrint } from "../marksheet/Marksheet";
-import { calculation } from "../../utils";
+import { calculation, pointsToGrade } from "../../utils";
+import Loader from "../loader/Loader";
 
 const ResultDataTabe = () => {
   const [data, setData] = useState([]);
@@ -60,7 +61,7 @@ const ResultDataTabe = () => {
 
   const totalCgpa = data?.courses?.reduce((sum, course) => {
     const gp = calculation(
-      (Number(course.marks) / data?.examType === "Mid-term" ? 30 : 100) * 100
+      (Number(course.marks) / (data?.examType === "Mid-term" ? 30 : 100)) * 100
     );
     const qp = gp * course.credit;
     return sum + qp;
@@ -99,182 +100,188 @@ const ResultDataTabe = () => {
 
   return (
     <>
-      {loading ? (
-        "Loading"
-      ) : (
-        <div className="datatable">
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
+      <div className="datatable">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
             <div className="datatableTitle">
-              Result {data?.stdName && `of ${data?.stdName}`} ({data?.stdId}){" "}
+              {data?.stdName
+                ? `Result of ${data?.stdName} (${data?.stdId})`
+                : "Search Result"}
               <br />
               {data?.stdName &&
                 `CGPA :
-            ${cgpa.toFixed(2)}`}
+            ${cgpa.toFixed(2)} (${pointsToGrade(cgpa)})`}
             </div>
-            {data?.stdName && (
-              <div>
-                <ReactToPrint
-                  trigger={() => (
-                    <button
-                      style={{
-                        width: "max-content",
-                        border: "none",
-                        outline: "none",
-                        padding: "10px 15px",
-                        fontSize: "16px",
-                        background: "#aaaaff",
-                        borderRadius: "7px",
-                        cursor: "pointer",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Print this out!
-                    </button>
-                  )}
-                  content={() => componentRef.current}
-                />
-                <div style={{ display: "none" }}>
-                  <ComponentToPrint
-                    ref={componentRef}
-                    data={data}
-                    department={department}
-                    cgpa={cgpa}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-          <div style={{ display: "flex", gap: "50px" }}>
-            <div style={{ display: "flex", gap: "10px" }}>
-              <div>
-                <label>Student ID</label>
-                <input
-                  type="text"
-                  placeholder="Student Id"
-                  onChange={(e) => setStdId(e.target.value)}
-                  style={{
-                    width: "300px",
-                    border: "none",
-                    borderBottom: "1px solid gray",
-                    padding: " 5px",
-                    fontSize: "16px",
-                    margin: "0 0 30px 0",
-                    outline: "none",
-                  }}
+          )}
+          {data?.stdName && (
+            <div>
+              <ReactToPrint
+                trigger={() => (
+                  <button
+                    style={{
+                      width: "max-content",
+                      border: "none",
+                      outline: "none",
+                      padding: "10px 15px",
+                      fontSize: "16px",
+                      background: "#aaaaff",
+                      borderRadius: "7px",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Print this out!
+                  </button>
+                )}
+                content={() => componentRef.current}
+              />
+              <div style={{ display: "none" }}>
+                <ComponentToPrint
+                  ref={componentRef}
+                  data={data}
+                  department={department}
+                  cgpa={cgpa}
                 />
               </div>
-              <div>
-                <label
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    padding: "0 5px",
-                  }}
-                  htmlFor="dropdown"
-                >
-                  Select department
-                </label>
-                <select
-                  id="dropdown"
-                  style={{
-                    width: "300px",
-                    border: "none",
-                    borderBottom: "1px solid gray",
-                    padding: " 5px",
-                    fontSize: "16px",
-                    margin: "0 0 30px 0",
-                    outline: "none",
-                  }}
-                  value={department}
-                  onChange={handleDropdownChange}
-                >
-                  <option>Choose department</option>
-                  <option>CSE</option>
-                  <option>BBA</option>
-                  <option>ENGLISH</option>
-                  <option>GDS</option>
-                  <option>HTM</option>
-                  <option>MBA</option>
-                </select>
-              </div>
-              <div>
-                <label
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    padding: "0 5px",
-                  }}
-                  htmlFor="dropdown"
-                >
-                  Assesment
-                </label>
-                <select
-                  id="dropdown"
-                  style={{
-                    width: "300px",
-                    border: "none",
-                    borderBottom: "1px solid gray",
-                    padding: " 5px",
-                    fontSize: "16px",
-                    margin: "0 0 30px 0",
-                    outline: "none",
-                  }}
-                  value={examType}
-                  onChange={handleAssesment}
-                >
-                  <option>Choose Assesment</option>
-                  <option>Mid-term</option>
-                  <option>Final-term</option>
-                </select>
-              </div>
-              <div>
-                <label
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    padding: "0 5px",
-                  }}
-                  htmlFor="dropdown"
-                >
-                  Select Semester
-                </label>
-                <select
-                  id="dropdown"
-                  style={{
-                    width: "300px",
-                    border: "none",
-                    borderBottom: "1px solid gray",
-                    padding: " 5px",
-                    fontSize: "16px",
-                    margin: "0 0 30px 0",
-                    outline: "none",
-                  }}
-                  value={semester}
-                  onChange={handleSemester}
-                >
-                  <option>Choose semester</option>
-                  <option>1st</option>
-                  <option>2nd</option>
-                  <option>3rd</option>
-                  <option>4th</option>
-                  <option>5th</option>
-                  <option>6th</option>
-                  <option>7th</option>
-                  <option>8th</option>
-                </select>
-              </div>
+            </div>
+          )}
+        </div>
+        <div style={{ display: "flex", gap: "50px" }}>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <div>
+              <label>Student ID</label>
+              <input
+                type="text"
+                placeholder="Student Id"
+                onChange={(e) => setStdId(e.target.value)}
+                style={{
+                  width: "300px",
+                  border: "none",
+                  borderBottom: "1px solid gray",
+                  padding: " 5px",
+                  fontSize: "16px",
+                  margin: "0 0 30px 0",
+                  outline: "none",
+                }}
+              />
+            </div>
+            <div>
+              <label
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "0 5px",
+                }}
+                htmlFor="dropdown"
+              >
+                Select department
+              </label>
+              <select
+                id="dropdown"
+                style={{
+                  width: "300px",
+                  border: "none",
+                  borderBottom: "1px solid gray",
+                  padding: " 5px",
+                  fontSize: "16px",
+                  margin: "0 0 30px 0",
+                  outline: "none",
+                }}
+                value={department}
+                onChange={handleDropdownChange}
+              >
+                <option>Choose department</option>
+                <option>CSE</option>
+                <option>BBA</option>
+                <option>ENGLISH</option>
+                <option>GDS</option>
+                <option>HTM</option>
+                <option>MBA</option>
+              </select>
+            </div>
+            <div>
+              <label
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "0 5px",
+                }}
+                htmlFor="dropdown"
+              >
+                Assesment
+              </label>
+              <select
+                id="dropdown"
+                style={{
+                  width: "300px",
+                  border: "none",
+                  borderBottom: "1px solid gray",
+                  padding: " 5px",
+                  fontSize: "16px",
+                  margin: "0 0 30px 0",
+                  outline: "none",
+                }}
+                value={examType}
+                onChange={handleAssesment}
+              >
+                <option>Choose Assesment</option>
+                <option>Mid-term</option>
+                <option>Final-term</option>
+              </select>
+            </div>
+            <div>
+              <label
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "0 5px",
+                }}
+                htmlFor="dropdown"
+              >
+                Select Semester
+              </label>
+              <select
+                id="dropdown"
+                style={{
+                  width: "300px",
+                  border: "none",
+                  borderBottom: "1px solid gray",
+                  padding: " 5px",
+                  fontSize: "16px",
+                  margin: "0 0 30px 0",
+                  outline: "none",
+                }}
+                value={semester}
+                onChange={handleSemester}
+              >
+                <option>Choose semester</option>
+                <option>1st</option>
+                <option>2nd</option>
+                <option>3rd</option>
+                <option>4th</option>
+                <option>5th</option>
+                <option>6th</option>
+                <option>7th</option>
+                <option>8th</option>
+              </select>
             </div>
           </div>
-          {data?.courses && (
+        </div>
+        {loading ? (
+          <Loader />
+        ) : (
+          data?.courses && (
             <DataGrid
               className="datagrid"
               rows={data?.courses}
@@ -284,10 +291,10 @@ const ResultDataTabe = () => {
               checkboxSelection
               getRowId={(rows) => rows._id}
             />
-          )}
-          {error && <p>{error}</p>}
-        </div>
-      )}
+          )
+        )}
+        {error && <p>{error}</p>}
+      </div>
     </>
   );
 };

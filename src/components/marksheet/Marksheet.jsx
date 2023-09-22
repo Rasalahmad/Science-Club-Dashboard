@@ -1,5 +1,5 @@
 import React from "react";
-import { calculation } from "../../utils";
+import { calculation, pointsToGrade } from "../../utils";
 
 export const ComponentToPrint = React.forwardRef((props, ref) => {
   const { stdName, examType, stdId, semester, courses } = props?.data || {};
@@ -65,7 +65,9 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
             <p>Department: {props?.department}</p>
             <p>Assessment: {examType}</p>
             <p>Semester: {semester}</p>
-            <p>CGPA: {props?.cgpa} (A+)</p>
+            <p>
+              CGPA: {props?.cgpa.toFixed(2)} ({pointsToGrade(props.cgpa)})
+            </p>
           </div>
           <table style={tableStyle}>
             <thead>

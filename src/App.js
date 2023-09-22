@@ -5,7 +5,12 @@ import Single from "./pages/single/Single";
 import CommitteeForm from "./pages/new/CommitteeForm";
 import FacultyForm from "./pages/new/FacultyForm";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { committeeInputs, facultyInputs, resultInputs } from "./formSource";
+import {
+  committeeInputs,
+  facultyInputs,
+  notificationInpur,
+  resultInputs,
+} from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
@@ -14,6 +19,7 @@ import CourseForm from "./pages/new/CourseForm";
 import { LoginContext } from "./context/loginContext";
 import NoticeForm from "./pages/new/NoticeForm";
 import EventForm from "./pages/new/EventForm";
+import NotificationForm from "./pages/notification/Notification";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -103,6 +109,15 @@ function App() {
                   />
                   <Route path=":resultID" element={<Single />} />
                 </Route>
+                <Route
+                  path="notification"
+                  element={
+                    <NotificationForm
+                      inputs={notificationInpur}
+                      title="Push Notification"
+                    />
+                  }
+                />
               </>
             ) : (
               // <Route path="login">

@@ -4,6 +4,7 @@ import Navbar from "../../components/navbar/Navbar";
 import { useEffect, useState } from "react";
 import { makeRequest } from "../../axios";
 import Swal from "sweetalert2";
+import Loader from "../../components/loader/Loader";
 
 const ResultForm = ({ inputs, title }) => {
   const [info, setInfo] = useState({});
@@ -48,7 +49,7 @@ const ResultForm = ({ inputs, title }) => {
           setCourses(res.data.data);
         }
       } catch (err) {
-        // setError(err);
+        Swal.fire("Error", "Something went wrong", "error");
       }
       setLoading(false);
     };
@@ -57,15 +58,17 @@ const ResultForm = ({ inputs, title }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const data = { ...info, courses, semester };
-    console.log(data);
     const res = await makeRequest.post(
       `/result/${department.toLocaleLowerCase()}`,
       data
     );
     if (res.data) {
+      setLoading(false);
       Swal.fire("Success", "Result Added successfully", "success");
     } else {
+      setLoading(false);
       Swal.fire("Error", "Something went wrong", "error");
     }
   };
@@ -117,7 +120,7 @@ const ResultForm = ({ inputs, title }) => {
               <option>8th</option>
             </select>
             {loading ? (
-              <p>Loading...</p>
+              <Loader />
             ) : (
               <form>
                 {inputs.map((input) => (

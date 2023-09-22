@@ -1,16 +1,13 @@
-import "./new.scss";
+import "./notification.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import { useState } from "react";
-import { makeRequest } from "../../axios";
 import Swal from "sweetalert2";
-import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import axios from "axios";
 import Loader from "../../components/loader/Loader";
 
-const NoticeForm = ({ title }) => {
+const NotificationForm = ({ title }) => {
   const [info, setInfo] = useState({});
-  const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -20,27 +17,16 @@ const NoticeForm = ({ title }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const data = {
-      ...info,
-      ...(file && file),
-    };
-    const res = await makeRequest.post(`/notice`, data);
-    if (res.data) {
-      await axios.post("https://app.nativenotify.com/api/notification", {
-        appId: 12386,
-        appToken: "d8JSh7GNkeXGhsSpQoErcp",
-        title: info?.title,
-        body: info?.desc,
-        dateSent: new Date(),
-      });
-      setLoading(false);
-      Swal.fire("Success", "Course Added successfully", "success");
-    } else {
-      setLoading(false);
-      Swal.fire("Error", "Something went wrong", "error");
-    }
+    await axios.post("https://app.nativenotify.com/api/notification", {
+      appId: 12386,
+      appToken: "d8JSh7GNkeXGhsSpQoErcp",
+      title: info?.title?.slice(0, 10),
+      body: info?.desc?.slice(0, 100),
+      dateSent: new Date(),
+    });
+    setLoading(false);
+    Swal.fire("Success", "Notification send successfully", "success");
   };
-
   return (
     <div className="new">
       <Sidebar />
@@ -53,16 +39,6 @@ const NoticeForm = ({ title }) => {
           <Loader />
         ) : (
           <div className="bottom">
-            <div className="left">
-              <img
-                src={
-                  file
-                    ? URL.createObjectURL(file)
-                    : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-                }
-                alt=""
-              />
-            </div>
             <div className="right">
               <form>
                 <div
@@ -73,15 +49,6 @@ const NoticeForm = ({ title }) => {
                     gap: "50px",
                   }}
                 >
-                  <label htmlFor="file">
-                    Image: <DriveFolderUploadOutlinedIcon className="icon" />
-                  </label>
-                  <input
-                    type="file"
-                    id="file"
-                    onChange={(e) => setFile(e.target.files[0])}
-                    style={{ display: "none" }}
-                  />
                   <div style={{ width: "100%" }}>
                     <label>Title</label>
                     <input
@@ -113,4 +80,4 @@ const NoticeForm = ({ title }) => {
   );
 };
 
-export default NoticeForm;
+export default NotificationForm;

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { makeRequest } from "../../axios";
 import Modal from "../modal/Modal";
+import Loader from "../loader/Loader";
 
 const EventDataTable = () => {
   const [data, setData] = useState([]);
@@ -98,16 +99,16 @@ const EventDataTable = () => {
 
   return (
     <>
-      {!data || loading ? (
-        "Loading"
-      ) : (
-        <div className="datatable">
-          <div className="datatableTitle">
-            Event List
-            <Link to={`/events/add-event`} className="link">
-              Add Event
-            </Link>
-          </div>
+      <div className="datatable">
+        <div className="datatableTitle">
+          Event List
+          <Link to={`/events/add-event`} className="link">
+            Add Event
+          </Link>
+        </div>
+        {loading ? (
+          <Loader />
+        ) : (
           <DataGrid
             className="datagrid"
             rows={data}
@@ -117,9 +118,9 @@ const EventDataTable = () => {
             checkboxSelection
             getRowId={(rows) => rows._id}
           />
-          {error && <p>{error}</p>}
-        </div>
-      )}
+        )}
+        {error && <p>{error}</p>}
+      </div>
       <Modal show={modal} close={Toggle} item={item} heading={"Notice"} />
     </>
   );
