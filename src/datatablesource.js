@@ -9,7 +9,7 @@ export const userColumns = [
         <div className="cellWithImg">
           <img
             className="cellImg"
-            src={`https://club-compass.netlify.app/images/${params.row.image}`}
+            src={`https://club.hotelgreenlandbd.com/images/${params.row.image}`}
             alt="avatar"
           />
           {params.row.name}
@@ -53,7 +53,7 @@ export const facultyColumns = [
         <div className="cellWithImg">
           <img
             className="cellImg"
-            src={`https://club-compass.netlify.app/images/${params.row.image}`}
+            src={`https://club.hotelgreenlandbd.com/images/${params.row.image}`}
             alt="avatar"
           />
           {params.row.name}
